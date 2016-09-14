@@ -1,2 +1,2 @@
 # ApkBus
-ApkBus client for Android
+ApkBus client for Android(in development)
