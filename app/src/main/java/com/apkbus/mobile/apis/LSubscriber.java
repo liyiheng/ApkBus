@@ -13,8 +13,7 @@ import rx.Subscriber;
 /**
  * 继承Subscriber
  * 用于对错误码进行统一的判断
- * 类似于XVolley中,创建LCallBack继承XCallBack的做法
- * Created by liyiheng on 16/6/25.
+ * Created by liyiheng on 16/9/14.
  */
 public abstract class LSubscriber<T> extends Subscriber<T> {
 
