@@ -41,7 +41,7 @@ public class RxAPI {
             }
         });
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://dev.superloop.com.cn/")
+                .baseUrl("https://dev.test.com.cn/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 //.client()

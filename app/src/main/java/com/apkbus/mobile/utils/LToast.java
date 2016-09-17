@@ -11,7 +11,7 @@ public class LToast {
     public static void show(Context context, String text) {
         if (TextUtils.isEmpty(text)) return;
         if (toast == null) {
-            // Must use context of the application to pretend memory leaks.
+            // Must use context of the application to prevent memory leaks.
             toast = Toast.makeText(context.getApplicationContext(), text, Toast.LENGTH_SHORT);
         }
         toast.setText(text);
