@@ -1,6 +1,9 @@
 package com.apkbus.mobile.apis;
 
 
+import com.apkbus.mobile.bean.BeanWrapper;
+import com.apkbus.mobile.bean.FirstBean;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -25,7 +28,9 @@ public class RxAPI {
     public static RxAPI getInstance() {
         if (api == null) {
             synchronized (RxAPI.class) {
-                api = new RxAPI();
+                if (api == null) {
+                    api = new RxAPI();
+                }
             }
         }
         return api;
@@ -40,8 +45,9 @@ public class RxAPI {
                 return null;
             }
         });
+        //"http://www.apkbus.com/";
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://dev.test.com.cn/")
+                .baseUrl(BusAPIs.DOMAIN)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 //.client()
@@ -49,8 +55,33 @@ public class RxAPI {
         topicService = retrofit.create(TopicService.class);
     }
 
-    public Observable<TempResult<TempBean>> getPopular(int page) {
-        return topicService.getPopularTopics(page)
+    public Observable<BeanWrapper<FirstBean>> getPopularArticles() {
+        return topicService.getPopularArticles()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<BeanWrapper<FirstBean>> getLatestArticles() {
+        return topicService.getLatestArticles()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<BeanWrapper<FirstBean>> getDemos() {
+        //return topicService.getDemos()
+        return  topicService.getArticles(BusAPIs.POPULAR_ARTICLES)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<BeanWrapper<FirstBean>> getAwsomeSource() {
+        return topicService.getAwsomeSrc()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<BeanWrapper<FirstBean>> getWeeklyPopular() {
+        return topicService.getWeeklyPopular()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
