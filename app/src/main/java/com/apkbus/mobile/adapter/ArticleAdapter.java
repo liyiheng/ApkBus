@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by liyiheng on 16/9/19.
  */
-public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleHolder> {
+public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleHolder> implements View.OnClickListener {
     private final LayoutInflater mInflater;
     private List<FirstBean> mData;
 
@@ -55,7 +55,10 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleH
     public void onBindViewHolder(ArticleHolder holder, int position) {
         FirstBean bean = mData.get(position);
         holder.title.setText(bean.getFulltitle());
-        //holder.draweeView.setImageURI(bean.getAvatar_big());
+        holder.avatar.setImageURI(bean.getAvatar_middle());
+        holder.nickName.setText(bean.getAuthor());
+        holder.itemView.setOnClickListener(this);
+        holder.itemView.setTag(bean);
     }
 
     @Override
@@ -64,14 +67,39 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleH
         return mData.size();
     }
 
+    @Override
+    public void onClick(View v) {
+        if (mInterf == null) {
+            return;
+        }
+        switch (v.getId()) {
+            case R.id.item_demos_root:
+                FirstBean tag = (FirstBean) v.getTag();
+                mInterf.onItemClick(tag);
+                break;
+        }
+    }
+
+    private ClickCallback mInterf;
+
+    public void setCallback(ClickCallback cb) {
+        this.mInterf = cb;
+    }
+
+    public interface ClickCallback {
+        void onItemClick(FirstBean bean);
+    }
+
     class ArticleHolder extends RecyclerView.ViewHolder {
-        //SimpleDraweeView draweeView;
+        SimpleDraweeView avatar;
         TextView title;
+        TextView nickName;
 
         public ArticleHolder(View itemView) {
             super(itemView);
-            //draweeView = (SimpleDraweeView) itemView.findViewById(R.id.item_demos_img);
+            avatar = (SimpleDraweeView) itemView.findViewById(R.id.item_demos_avatar);
             title = (TextView) itemView.findViewById(R.id.item_demos_title);
+            nickName = (TextView) itemView.findViewById(R.id.item_demos_nickname);
         }
     }
 }

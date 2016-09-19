@@ -1,5 +1,7 @@
 package com.apkbus.mobile;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,7 +21,7 @@ import java.util.List;
 /**
  * Created by liyiheng on 16/9/19.
  */
-public class ArticleFragment extends BaseFragment implements ArticleContract.View, SwipeRefreshLayout.OnRefreshListener {
+public class ArticleFragment extends BaseFragment implements ArticleContract.View, SwipeRefreshLayout.OnRefreshListener, ArticleAdapter.ClickCallback {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -61,6 +63,7 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         if (SECTION_NUMBER > 1) {
             mAdapter = new ArticleAdapter(getContext());
+            mAdapter.setCallback(this);
             mRecyclerView.setAdapter(mAdapter);
         }
         return layout;
@@ -89,5 +92,12 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
     @Override
     public void updateData2(List<Blog> data) {
         mSwipeRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onItemClick(FirstBean bean) {
+        Intent intent = new Intent(Intent.ACTION_DEFAULT, Uri.parse(bean.getUrl()+ "&mobile=yes"));
+        startActivity(intent);
+       // WebActivity.loadURL(getContext(), bean.getUrl() + "&mobile=yes");
     }
 }
