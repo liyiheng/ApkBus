@@ -2,6 +2,7 @@ package com.apkbus.mobile.apis;
 
 
 import com.apkbus.mobile.bean.BeanWrapper;
+import com.apkbus.mobile.bean.Blog;
 import com.apkbus.mobile.bean.FirstBean;
 
 import java.io.IOException;
@@ -45,9 +46,8 @@ public class RxAPI {
                 return null;
             }
         });
-        //"http://www.apkbus.com/";
         retrofit = new Retrofit.Builder()
-                .baseUrl(BusAPIs.DOMAIN)
+                .baseUrl(TopicService.DOMAIN)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 //.client()
@@ -55,33 +55,32 @@ public class RxAPI {
         topicService = retrofit.create(TopicService.class);
     }
 
-    public Observable<BeanWrapper<FirstBean>> getPopularArticles() {
-        return topicService.getPopularArticles()
+    public Observable<BeanWrapper<Blog>> getPopularArticles() {
+        return topicService.getBlogs(TopicService.BLOG_POPULAR)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<BeanWrapper<FirstBean>> getLatestArticles() {
-        return topicService.getLatestArticles()
+    public Observable<BeanWrapper<Blog>> getLatestArticles() {
+        return topicService.getBlogs(TopicService.BLOG_LATEST)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<BeanWrapper<FirstBean>> getDemos() {
-        //return topicService.getDemos()
-        return  topicService.getArticles(BusAPIs.POPULAR_ARTICLES)
+        return topicService.getArticles(TopicService.DEMOS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<BeanWrapper<FirstBean>> getAwsomeSource() {
-        return topicService.getAwsomeSrc()
+        return topicService.getArticles(TopicService.AWSOME_SOURCE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<BeanWrapper<FirstBean>> getWeeklyPopular() {
-        return topicService.getWeeklyPopular()
+        return topicService.getArticles(TopicService.WEEKLY_POPULAR)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
