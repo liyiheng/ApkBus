@@ -1,4 +1,4 @@
-package com.apkbus.mobile;
+package com.apkbus.mobile.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

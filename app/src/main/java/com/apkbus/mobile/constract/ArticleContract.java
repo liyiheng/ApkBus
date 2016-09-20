@@ -1,5 +1,7 @@
-package com.apkbus.mobile;
+package com.apkbus.mobile.constract;
 
+import com.apkbus.mobile.BasePresenter;
+import com.apkbus.mobile.BaseView;
 import com.apkbus.mobile.bean.Blog;
 import com.apkbus.mobile.bean.FirstBean;
 

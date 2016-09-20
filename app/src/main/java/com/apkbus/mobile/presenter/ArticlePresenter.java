@@ -1,5 +1,6 @@
-package com.apkbus.mobile;
+package com.apkbus.mobile.presenter;
 
+import com.apkbus.mobile.constract.ArticleContract;
 import com.apkbus.mobile.apis.LSubscriber;
 import com.apkbus.mobile.apis.RxAPI;
 import com.apkbus.mobile.bean.BeanWrapper;

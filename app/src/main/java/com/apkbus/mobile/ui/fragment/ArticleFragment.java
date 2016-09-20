@@ -1,4 +1,4 @@
-package com.apkbus.mobile;
+package com.apkbus.mobile.ui.fragment;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -11,9 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.apkbus.mobile.constract.ArticleContract;
+import com.apkbus.mobile.R;
 import com.apkbus.mobile.adapter.ArticleAdapter;
 import com.apkbus.mobile.bean.Blog;
 import com.apkbus.mobile.bean.FirstBean;
+import com.apkbus.mobile.presenter.ArticlePresenter;
 import com.apkbus.mobile.utils.SwipeRefresh;
 
 import java.util.List;
@@ -53,7 +56,7 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        layout = inflater.inflate(R.layout.fragment_main2, container, false);
+        layout = inflater.inflate(R.layout.fragment_article, container, false);
         SECTION_NUMBER = getArguments().getInt(ARG_SECTION_NUMBER);
         mPresenter = new ArticlePresenter(this, SECTION_NUMBER, mSubscriptions);
         mSwipeRefresh = ((SwipeRefreshLayout) layout.findViewById(R.id.fragment_article_refresh));
