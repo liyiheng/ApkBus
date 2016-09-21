@@ -40,6 +40,4 @@ local.properties
 
 # Android Studio captures folder
 captures/
-app/libs/
-app/src/main/res/drawable/
 projectFilesBackup/
