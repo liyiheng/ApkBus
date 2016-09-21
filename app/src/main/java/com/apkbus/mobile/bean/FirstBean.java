@@ -1,6 +1,7 @@
 package com.apkbus.mobile.bean;
 
 /**
+ * There are 2 kinds of beans now.
  * Created by liyiheng on 16/9/18.
  */
 public class FirstBean {

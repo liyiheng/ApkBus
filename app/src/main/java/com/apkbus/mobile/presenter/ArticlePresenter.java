@@ -17,11 +17,13 @@ import rx.subscriptions.CompositeSubscription;
 public class ArticlePresenter implements ArticleContract.Presenter {
     @Override
     public void subscribe() {
-
+        // todo
     }
 
     @Override
     public void unSubscribe() {
+        // todo
+        //mView = null;
 
     }
 
