@@ -16,7 +16,8 @@ public interface TopicService {
 
     int WEEKLY_POPULAR = 30;
     int AWSOME_SOURCE = 31;
-    int DEMOS = 35;
+    //int DEMOS = 35;
+    int DEMOS = 42;
 /*
 
 
@@ -25,7 +26,7 @@ public interface TopicService {
 最新博文 32
 精品源码 31
 一周热点 http://www.apkbus.com/api.php?mod=js&bid=30&type=json
-实例教程 35
+实例教程 35,42
 
 
  */
