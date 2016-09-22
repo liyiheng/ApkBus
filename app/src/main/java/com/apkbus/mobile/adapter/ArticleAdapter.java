@@ -90,7 +90,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleH
         void onItemClick(FirstBean bean);
     }
 
-    class ArticleHolder extends RecyclerView.ViewHolder {
+    public static class ArticleHolder extends RecyclerView.ViewHolder {
         SimpleDraweeView avatar;
         TextView title;
         TextView nickName;

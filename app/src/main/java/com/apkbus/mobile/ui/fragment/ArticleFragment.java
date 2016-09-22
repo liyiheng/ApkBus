@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.apkbus.mobile.adapter.BlogAdapter;
 import com.apkbus.mobile.constract.ArticleContract;
 import com.apkbus.mobile.R;
 import com.apkbus.mobile.adapter.ArticleAdapter;
@@ -24,7 +25,7 @@ import java.util.List;
 /**
  * Created by liyiheng on 16/9/19.
  */
-public class ArticleFragment extends BaseFragment implements ArticleContract.View, SwipeRefreshLayout.OnRefreshListener, ArticleAdapter.ClickCallback {
+public class ArticleFragment extends BaseFragment implements ArticleContract.View, SwipeRefreshLayout.OnRefreshListener, ArticleAdapter.ClickCallback, BlogAdapter.ClickCallback {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -37,6 +38,7 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
     private SwipeRefreshLayout mSwipeRefresh;
     private RecyclerView mRecyclerView;
     private ArticleAdapter mAdapter;
+    private BlogAdapter blogAdapter;
 
     public ArticleFragment() {
     }
@@ -68,6 +70,10 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
             mAdapter = new ArticleAdapter(getContext());
             mAdapter.setCallback(this);
             mRecyclerView.setAdapter(mAdapter);
+        }else {
+            blogAdapter = new BlogAdapter(getContext());
+            blogAdapter.setCallback(this);
+            mRecyclerView.setAdapter(blogAdapter);
         }
         return layout;
     }
@@ -94,6 +100,9 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
 
     @Override
     public void updateData2(List<Blog> data) {
+        if (blogAdapter != null) {
+            blogAdapter.updateRes(data);
+        }
         mSwipeRefresh.setRefreshing(false);
     }
 
@@ -102,5 +111,11 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
         Intent intent = new Intent(Intent.ACTION_DEFAULT, Uri.parse(bean.getUrl()+ "&mobile=yes"));
         startActivity(intent);
        // WebActivity.loadURL(getContext(), bean.getUrl() + "&mobile=yes");
+    }
+
+    @Override
+    public void onItemClick(Blog bean) {
+        Intent intent = new Intent(Intent.ACTION_DEFAULT, Uri.parse(bean.getUrl()+ "&mobile=yes"));
+        startActivity(intent);
     }
 }
