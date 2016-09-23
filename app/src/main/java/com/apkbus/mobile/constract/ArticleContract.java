@@ -12,6 +12,10 @@ import java.util.List;
  */
 public interface ArticleContract {
     interface View extends BaseView<Presenter> {
+        /**
+         * Update UI.
+         * @param data
+         */
         void updateData(List<FirstBean> data);
         void updateData2(List<Blog> data);
 

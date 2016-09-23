@@ -14,8 +14,10 @@ import rx.Observable;
  */
 public interface TopicService {
 
-    int WEEKLY_POPULAR = 30;
-    int AWSOME_SOURCE = 31;
+    //int WEEKLY_POPULAR = 30;
+    int WEEKLY_POPULAR = 43;
+    //int AWSOME_SOURCE = 31;
+    int AWSOME_SOURCE = 46;
     //int DEMOS = 35;
     int DEMOS = 42;
 /*
@@ -25,7 +27,7 @@ public interface TopicService {
 热门博文 33
 最新博文 32
 精品源码 31
-一周热点 http://www.apkbus.com/api.php?mod=js&bid=30&type=json
+一周热点 http://www.apkbus.com/api.php?mod=js&bid=30&type=json  43
 实例教程 35,42
 
 
@@ -39,8 +41,10 @@ public interface TopicService {
     String DOMAIN = "http://www.apkbus.com/";
 
 
-    int BLOG_LATEST = 32;
-    int BLOG_POPULAR = 33;
+    //int BLOG_LATEST = 32;
+    int BLOG_LATEST = 44;
+    //int BLOG_POPULAR = 33;
+    int BLOG_POPULAR = 45;
 
     /**
      * @param bid Should be one of {@link #BLOG_LATEST,#BLOG_POPULAR}

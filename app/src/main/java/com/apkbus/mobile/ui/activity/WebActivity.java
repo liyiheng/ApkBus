@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.webkit.WebView;
 
+import com.apkbus.mobile.BasePresenter;
 import com.apkbus.mobile.R;
 
 public class WebActivity extends BaseActivity {
@@ -30,6 +31,11 @@ public class WebActivity extends BaseActivity {
         WebView webView = (WebView) findViewById(R.id.web_activity_webview);
         webView.loadUrl(url);
 
+    }
+
+    @Override
+    BasePresenter getPresenter() {
+        return null;
     }
 
 }

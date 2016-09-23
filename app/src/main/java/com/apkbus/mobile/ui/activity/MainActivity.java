@@ -1,23 +1,35 @@
 package com.apkbus.mobile.ui.activity;
 
-import android.support.design.widget.TabLayout;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
-
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.SwitchCompat;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.TextView;
 
-import com.apkbus.mobile.ui.fragment.ArticleFragment;
 import com.apkbus.mobile.R;
+import com.apkbus.mobile.bean.LoginInfo;
+import com.apkbus.mobile.bean.User;
+import com.apkbus.mobile.constract.MainContract;
+import com.apkbus.mobile.presenter.MainPresenter;
+import com.apkbus.mobile.ui.fragment.ArticleFragment;
+import com.apkbus.mobile.utils.SharedPreferencesHelper;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity<MainContract.Presenter> implements MainContract.View {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -33,16 +45,31 @@ public class MainActivity extends BaseActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private TextView mTextUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initView();
+        mPresenter.initData();
+    }
 
+    @Override
+    MainPresenter getPresenter() {
+        return new MainPresenter(this);
+    }
+
+
+    private void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
+        actionBarDrawerToggle.syncState();
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener((View view) -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show());
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -51,46 +78,30 @@ public class MainActivity extends BaseActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
-
-        initView();
-    }
-
-    private void initView() {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener((View view) -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show());
-//        TextView tv = (TextView) findViewById(R.id.textView);
-//        tv.setOnClickListener((View v) -> {
-//                    Subscription s = Observable.timer(2, TimeUnit.SECONDS)
-//                            .observeOn(AndroidSchedulers.mainThread())
-//                            .subscribe((Long aLong) -> LToast.show(mContext, "Test"));
-//                    compositeSubscription.add(s);
-//                }
-//        );
-//
-//        Observable<BeanWrapper<FirstBean>> tttest = RxAPI.getInstance().getDemos();
-//        LSubscriber<BeanWrapper<FirstBean>> lSubscriber = new LSubscriber<BeanWrapper<FirstBean>>() {
-//            @Override
-//            public void onNext(BeanWrapper<FirstBean> firstBeanBeanWrapper) {
-//                StringBuilder sb = new StringBuilder();
-//                List<FirstBean> res = firstBeanBeanWrapper.getRes();
-//                for (FirstBean b : res) {
-//                    sb.append(b.getFulltitle()).append("\n");
-//                }
-//                tv.setText(sb);
-//            }
-//
-//            @Override
-//            protected void onError(int httpStatusCode, int code) {
-//
-//            }
-//        };
-//        tttest.subscribe(lSubscriber);
-
-
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        SwitchCompat item = (SwitchCompat) navigationView.getMenu().getItem(0).getActionView();
+        item.setChecked(SharedPreferencesHelper.getInstance(this).needAutoRenew());
+        item.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) ->
+                SharedPreferencesHelper.getInstance(mContext).setAutoRenew(isChecked)
+        );
+        navigationView.setNavigationItemSelectedListener((MenuItem menuItem) -> {
+            switch (menuItem.getItemId()) {
+                case R.id.navigation_item_autorenew:
+                    //menuItem.getActionView().
+                    break;
+                case R.id.navigation_item_logout:
+                    SharedPreferencesHelper.getInstance(mContext).saveToken(new LoginInfo());
+                    startActivity(new Intent(mContext, LoginActivity.class));
+                    finish();
+            }
+            //menuItem.setChecked(!menuItem.isChecked());
+            //drawerLayout.closeDrawers();
+            return true;
+        });
+        mTextUsername = ((TextView) navigationView.getHeaderView(0).findViewById(R.id.navigation_header_username));
     }
 
     @Override
@@ -102,19 +113,23 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public Context getContext() {
+        return mContext;
+    }
+
+    @Override
+    public void bindData(User data) {
+        mTextUsername.setText(data.getUsername());
+    }
 
 
     /**
@@ -129,14 +144,11 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
             return ArticleFragment.newInstance(position);
         }
 
         @Override
         public int getCount() {
-            // Show 4 total pages.
             return 5;
         }
 
