@@ -23,8 +23,17 @@ public interface UserService {
     Observable<MobWrapper<LoginInfo>> login(@Query("key") String key,
                                             @Query(value = "username", encoded = true) String username,
                                             @Query("password") String password);
+
     @GET("user/profile/query")
     Observable<MobWrapper<String>> getProfileItem(@Query("key") String key,
-                                            @Query("uid") String uid,
-                                            @Query("item") String item);
+                                                  @Query("uid") String uid,
+                                                  @Query("item") String item);
+
+
+    @GET("user/profile/put")
+    Observable<MobWrapper> setProfile(@Query("key") String key,
+                                              @Query("uid") String uid,
+                                              @Query("token") String token,
+                                              @Query("item") String item,
+                                              @Query("value") String value);
 }

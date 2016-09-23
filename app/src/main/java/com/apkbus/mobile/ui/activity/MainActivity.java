@@ -3,6 +3,7 @@ package com.apkbus.mobile.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -19,14 +20,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.apkbus.mobile.R;
 import com.apkbus.mobile.bean.LoginInfo;
 import com.apkbus.mobile.bean.User;
+import com.apkbus.mobile.bean.UserProfile;
 import com.apkbus.mobile.constract.MainContract;
 import com.apkbus.mobile.presenter.MainPresenter;
 import com.apkbus.mobile.ui.fragment.ArticleFragment;
+import com.apkbus.mobile.utils.LToast;
 import com.apkbus.mobile.utils.SharedPreferencesHelper;
 
 public class MainActivity extends BaseActivity<MainContract.Presenter> implements MainContract.View {
@@ -46,6 +51,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
      */
     private ViewPager mViewPager;
     private TextView mTextUsername;
+    private ImageView mAvatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +108,20 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
             return true;
         });
         mTextUsername = ((TextView) navigationView.getHeaderView(0).findViewById(R.id.navigation_header_username));
+        mAvatar = ((ImageView) navigationView.getHeaderView(0).findViewById(R.id.navigation_header_avatar));
+        mTextUsername.setOnClickListener(view -> {
+            drawerLayout.closeDrawers();
+            new MaterialDialog.Builder(mContext)
+                    .input("昵称", "请输入昵称", (@NonNull MaterialDialog dialog, CharSequence input) -> {
+                        if (input.length() == 0) {
+                            LToast.show(mContext, "请输入昵称");
+                            return;
+                        }
+                        mPresenter.setUserProfile(UserProfile.NICKNAME, input.toString());
+                        dialog.dismiss();
+                        loadingDialog.show();
+                    }).build().show();
+        });
     }
 
     @Override
@@ -128,6 +148,8 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 
     @Override
     public void bindData(User data) {
+        loadingDialog.dismiss();
+        if (data == null) return;
         mTextUsername.setText(data.getUsername());
     }
 

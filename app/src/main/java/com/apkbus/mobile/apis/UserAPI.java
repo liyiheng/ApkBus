@@ -77,4 +77,9 @@ public class UserAPI {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+    public Observable<MobWrapper> setProfile(String uid,String token, String itemName,String itemValue) {
+        return userService.setProfile(Constants.MOBAPI_KEY,uid,token,itemName,itemValue)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

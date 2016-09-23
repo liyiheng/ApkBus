@@ -2,6 +2,8 @@ package com.apkbus.mobile.apis;
 
 
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,6 +36,8 @@ public abstract class LSubscriber<T> extends Subscriber<T> {
                 e1.printStackTrace();
             }
             int httpStatusCode = exception.code();
+            Log.e("LSubscriber","onError: httpStatusCode:  " + String.valueOf(httpStatusCode));
+            Log.e("LSubscriber","onError:   responseBody:  " + err);
             int code = -2000;
             String msg = "";
             if (err != null) {

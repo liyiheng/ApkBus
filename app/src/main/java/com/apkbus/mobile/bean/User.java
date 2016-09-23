@@ -7,7 +7,19 @@ package com.apkbus.mobile.bean;
 public class User {
     public static final String ITEM_NAME = "nickname";
     private String username;
+    private String nickname;
 
+    public static String getItemName() {
+        return ITEM_NAME;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public String getUsername() {
         return username;

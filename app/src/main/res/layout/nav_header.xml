@@ -24,6 +24,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
+        android:id="@+id/navigation_header_avatar"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_gravity="left|center_vertical"

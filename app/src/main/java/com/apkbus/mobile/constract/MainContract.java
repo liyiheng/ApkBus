@@ -3,6 +3,7 @@ package com.apkbus.mobile.constract;
 import com.apkbus.mobile.BasePresenter;
 import com.apkbus.mobile.BaseView;
 import com.apkbus.mobile.bean.User;
+import com.apkbus.mobile.bean.UserProfile;
 
 /**
  * MainActivityContract
@@ -17,5 +18,6 @@ public interface MainContract {
 
     interface Presenter extends BasePresenter {
         void initData();
+        void setUserProfile(UserProfile item,String value);
     }
 }
