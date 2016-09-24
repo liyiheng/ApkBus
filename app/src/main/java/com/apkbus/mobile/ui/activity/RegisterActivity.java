@@ -9,6 +9,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.apkbus.mobile.BasePresenter;
 import com.apkbus.mobile.R;
 import com.apkbus.mobile.apis.LSubscriber;
+import com.apkbus.mobile.apis.MobError;
 import com.apkbus.mobile.apis.UserAPI;
 import com.apkbus.mobile.bean.MobWrapper;
 import com.apkbus.mobile.utils.LToast;
@@ -46,8 +47,10 @@ public class RegisterActivity extends BaseActivity {
         confirm.setOnClickListener(v -> regist());
         findViewById(R.id.register_back).setOnClickListener(v -> finish());
         subscriber = new LSubscriber<MobWrapper>() {
+
+
             @Override
-            protected void onError(int httpStatusCode, int code) {
+            protected void onError(int httpStatusCode, MobError error) {
                 loadingDialog.dismiss();
             }
 

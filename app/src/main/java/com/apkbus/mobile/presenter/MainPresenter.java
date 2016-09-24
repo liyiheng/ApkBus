@@ -1,9 +1,9 @@
 package com.apkbus.mobile.presenter;
 
-import android.util.Base64;
+import android.util.Log;
 
 import com.apkbus.mobile.apis.LSubscriber;
-import com.apkbus.mobile.apis.RxAPI;
+import com.apkbus.mobile.apis.MobError;
 import com.apkbus.mobile.apis.UserAPI;
 import com.apkbus.mobile.bean.LoginInfo;
 import com.apkbus.mobile.bean.MobWrapper;
@@ -21,6 +21,7 @@ import rx.subscriptions.CompositeSubscription;
 
 public class MainPresenter implements MainContract.Presenter {
     private final CompositeSubscription mSubscriptions;
+    private final UserAPI mUserAPI;
     private MainContract.View mView;
 
     @Override
@@ -36,6 +37,7 @@ public class MainPresenter implements MainContract.Presenter {
     public MainPresenter(MainContract.View view) {
         this.mView = view;
         mSubscriptions = new CompositeSubscription();
+        mUserAPI = UserAPI.getInstance();
     }
 
     @Override
@@ -45,20 +47,26 @@ public class MainPresenter implements MainContract.Presenter {
             mView.bindData(null);
             return;
         }
+        String username = mUserAPI.encodeData(UserProfile.NICKNAME.getValue());
 //        Subscription s = UserAPI.getInstance().getProfileItem(token.getUid(), User.ITEM_NAME)
-        Subscription s = UserAPI.getInstance().getProfileItem(token.getUid(), Base64.encodeToString("username".getBytes(),Base64.DEFAULT))
+        Subscription s = mUserAPI.getProfileItem(token.getUid(), username)
                 .subscribe(new LSubscriber<MobWrapper<String>>() {
 
 
                     @Override
-                    protected void onError(int httpStatusCode, int code) {
+                    protected void onError(int httpStatusCode, MobError error) {
                         mView.bindData(null);
+                        mView.showMsg(error.getMsg());
                     }
 
                     @Override
                     public void onNext(MobWrapper<String> stringMobWrapper) {
+                        if (!"200".equals(stringMobWrapper.getRetCode())) {
+                            Log.e("MainPresenter", "UnExcepted:" + stringMobWrapper.getRetCode());
+                            Log.e("MainPresenter", "Message:   " + stringMobWrapper.getMsg());
+                        }
                         User user = new User();
-                        user.setNickname(stringMobWrapper.getResult());
+                        user.setNickname(mUserAPI.decodeData(stringMobWrapper.getResult()));
                         mView.bindData(user);
                     }
                 });
@@ -68,17 +76,24 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void setUserProfile(UserProfile item, String value) {
         LoginInfo token = SharedPreferencesHelper.getInstance(mView.getContext()).getToken();
-        Subscription subscribe = UserAPI.getInstance().setProfile(token.getUid(), token.getToken(), Base64.encodeToString(item.getValue().getBytes(),Base64.DEFAULT), value)
+        Subscription subscribe = mUserAPI
+                .setProfile(token.getUid(),
+                        token.getToken(),
+                        mUserAPI.encodeData(item.getValue()),
+                        mUserAPI.encodeData(value))
                 .subscribe(new LSubscriber<MobWrapper>() {
+
                     @Override
-                    protected void onError(int httpStatusCode, int code) {
+                    protected void onError(int httpStatusCode, MobError error) {
                         mView.bindData(null);
+                        mView.showMsg(error.getMsg());
                     }
 
                     @Override
                     public void onNext(MobWrapper stringMobWrapper) {
                         if ("200".equals(stringMobWrapper.getRetCode())) {
                             initData();
+                            mView.showMsg("设置成功");
                         }
                     }
                 });

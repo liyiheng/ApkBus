@@ -18,6 +18,7 @@ import com.apkbus.mobile.adapter.ArticleAdapter;
 import com.apkbus.mobile.bean.Blog;
 import com.apkbus.mobile.bean.FirstBean;
 import com.apkbus.mobile.presenter.ArticlePresenter;
+import com.apkbus.mobile.utils.LToast;
 import com.apkbus.mobile.utils.SwipeRefresh;
 
 import java.util.List;
@@ -70,7 +71,7 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
             mAdapter = new ArticleAdapter(getContext());
             mAdapter.setCallback(this);
             mRecyclerView.setAdapter(mAdapter);
-        }else {
+        } else {
             blogAdapter = new BlogAdapter(getContext());
             blogAdapter.setCallback(this);
             mRecyclerView.setAdapter(blogAdapter);
@@ -108,14 +109,19 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
 
     @Override
     public void onItemClick(FirstBean bean) {
-        Intent intent = new Intent(Intent.ACTION_DEFAULT, Uri.parse(bean.getUrl()+ "&mobile=yes"));
+        Intent intent = new Intent(Intent.ACTION_DEFAULT, Uri.parse(bean.getUrl() + "&mobile=yes"));
         startActivity(intent);
-       // WebActivity.loadURL(getContext(), bean.getUrl() + "&mobile=yes");
+        // WebActivity.loadURL(getContext(), bean.getUrl() + "&mobile=yes");
     }
 
     @Override
     public void onItemClick(Blog bean) {
-        Intent intent = new Intent(Intent.ACTION_DEFAULT, Uri.parse(bean.getUrl()+ "&mobile=yes"));
+        Intent intent = new Intent(Intent.ACTION_DEFAULT, Uri.parse(bean.getUrl() + "&mobile=yes"));
         startActivity(intent);
+    }
+
+    @Override
+    public void showMsg(CharSequence msg) {
+        LToast.show(getContext(), msg);
     }
 }

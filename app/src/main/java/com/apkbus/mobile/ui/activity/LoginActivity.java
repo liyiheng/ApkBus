@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.apkbus.mobile.BasePresenter;
 import com.apkbus.mobile.R;
 import com.apkbus.mobile.apis.LSubscriber;
+import com.apkbus.mobile.apis.MobError;
 import com.apkbus.mobile.apis.UserAPI;
 import com.apkbus.mobile.bean.LoginInfo;
 import com.apkbus.mobile.bean.MobWrapper;
@@ -123,8 +124,10 @@ public class LoginActivity extends BaseActivity {
                     .getInstance()
                     .login(username, password)
                     .subscribe(new LSubscriber<MobWrapper<LoginInfo>>() {
+
+
                         @Override
-                        protected void onError(int httpStatusCode, int code) {
+                        protected void onError(int httpStatusCode, MobError error) {
                             showProgress(false);
                             LToast.show(mContext, "登录失败");
                         }

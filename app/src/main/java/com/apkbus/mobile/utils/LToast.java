@@ -8,7 +8,7 @@ import android.widget.Toast;
  * Created by liyiheng on 16/9/14.
  */
 public class LToast {
-    public static void show(Context context, String text) {
+    public static void show(Context context, CharSequence text) {
         if (TextUtils.isEmpty(text)) return;
         if (toast == null) {
             // Must use context of the application to prevent memory leaks.
@@ -18,7 +18,7 @@ public class LToast {
         toast.show();
     }
 
-    public static void show(Context context, String text, int duration) {
+    public static void show(Context context, CharSequence text, int duration) {
         if (toast == null) {
             toast = Toast.makeText(context.getApplicationContext(), text, duration);
         }

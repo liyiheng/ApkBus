@@ -16,9 +16,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.ClientCertRequest;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -112,7 +117,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         mTextUsername.setOnClickListener(view -> {
             drawerLayout.closeDrawers();
             new MaterialDialog.Builder(mContext)
-                    .input("昵称", "请输入昵称", (@NonNull MaterialDialog dialog, CharSequence input) -> {
+                    .input("昵称", "", (@NonNull MaterialDialog dialog, CharSequence input) -> {
                         if (input.length() == 0) {
                             LToast.show(mContext, "请输入昵称");
                             return;
@@ -147,10 +152,15 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     }
 
     @Override
+    public void showMsg(CharSequence msg) {
+        LToast.show(this,msg);
+    }
+
+    @Override
     public void bindData(User data) {
         loadingDialog.dismiss();
-        if (data == null) return;
-        mTextUsername.setText(data.getUsername());
+        if (data == null|| TextUtils.isEmpty(data.getNickname())) return;
+        mTextUsername.setText(data.getNickname());
     }
 
 

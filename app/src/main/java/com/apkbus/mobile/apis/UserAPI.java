@@ -1,9 +1,9 @@
 package com.apkbus.mobile.apis;
 
-import com.apkbus.mobile.BusApp;
+import android.util.Base64;
+
 import com.apkbus.mobile.bean.LoginInfo;
 import com.apkbus.mobile.bean.MobWrapper;
-import com.apkbus.mobile.utils.SharedPreferencesHelper;
 
 import java.io.IOException;
 
@@ -77,9 +77,23 @@ public class UserAPI {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
-    public Observable<MobWrapper> setProfile(String uid,String token, String itemName,String itemValue) {
-        return userService.setProfile(Constants.MOBAPI_KEY,uid,token,itemName,itemValue)
+
+    public Observable<MobWrapper> setProfile(String uid, String token, String itemName, String itemValue) {
+        return userService.setProfile(Constants.MOBAPI_KEY, uid, token, itemName, itemValue)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    //用户资料项和用户数据进行base64编码(此部分必须是base64编码,如有需要,在编码前可自行加密)
+    public String encodeData(String data) {
+        //进行BASE64编码,URL_SAFE/NO_WRAP/NO_PADDING
+        return new String(Base64.encode(data.getBytes(), Base64.URL_SAFE | Base64.NO_WRAP | Base64.NO_PADDING));
+    }//用户资料项和用户数据进行base64编码(此部分必须是base64编码,如有需要,在编码前可自行加密)
+
+    public String decodeData(String data) {
+        if (data == null) return null;
+        //进行BASE64编码,URL_SAFE/NO_WRAP/NO_PADDING
+        return new String(Base64.decode(data.getBytes(), Base64.URL_SAFE | Base64.NO_WRAP | Base64.NO_PADDING));
     }
 }

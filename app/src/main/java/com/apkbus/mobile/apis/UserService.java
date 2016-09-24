@@ -24,13 +24,13 @@ public interface UserService {
                                             @Query(value = "username", encoded = true) String username,
                                             @Query("password") String password);
 
-    @GET("user/profile/query")
+    @GET("profile/query")
     Observable<MobWrapper<String>> getProfileItem(@Query("key") String key,
                                                   @Query("uid") String uid,
                                                   @Query("item") String item);
 
 
-    @GET("user/profile/put")
+    @GET("profile/put")
     Observable<MobWrapper> setProfile(@Query("key") String key,
                                               @Query("uid") String uid,
                                               @Query("token") String token,

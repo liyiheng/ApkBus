@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:text="哦啦啦"
+        android:text="点击设置昵称"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 </FrameLayout>

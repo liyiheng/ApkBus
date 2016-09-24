@@ -1,5 +1,6 @@
 package com.apkbus.mobile.presenter;
 
+import com.apkbus.mobile.apis.MobError;
 import com.apkbus.mobile.constract.ArticleContract;
 import com.apkbus.mobile.apis.LSubscriber;
 import com.apkbus.mobile.apis.RxAPI;
@@ -91,6 +92,10 @@ public class ArticlePresenter implements ArticleContract.Presenter {
                     mView.updateData(data.getRes());
                 }
             }
+            // Stop SwipeRefreshLayout refreshing.
+            mView.updateData2(null);
+            mView.updateData(null);
+
             boolean autoRenew = SharedPreferencesHelper.getInstance(mView.getContext()).needAutoRenew();
             if (!autoRenew) return;
         }
@@ -105,9 +110,11 @@ public class ArticlePresenter implements ArticleContract.Presenter {
                             aCache.put("DATA" + SECTION_INDEX, gson.toJson(blogBeanWrapper)))
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new LSubscriber<BeanWrapper<Blog>>() {
-                        @Override
-                        protected void onError(int httpStatusCode, int code) {
 
+
+                        @Override
+                        protected void onError(int httpStatusCode, MobError error) {
+                            mView.showMsg(error.getMsg());
                         }
 
                         @Override
@@ -123,9 +130,10 @@ public class ArticlePresenter implements ArticleContract.Presenter {
                             aCache.put("DATA" + SECTION_INDEX, gson.toJson(firstBeanBeanWrapper)))
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new LSubscriber<BeanWrapper<FirstBean>>() {
-                        @Override
-                        protected void onError(int httpStatusCode, int code) {
 
+                        @Override
+                        protected void onError(int httpStatusCode, MobError error) {
+                            mView.showMsg(error.getMsg());
                         }
 
                         @Override
