@@ -62,24 +62,35 @@
                     android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
-
+            <TextView
+                android:id="@+id/btn_forget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="10dp"
+                android:text="忘记密码"
+                android:textColor="@color/colorPrimary" />
             <Button
+                android:textColor="@android:color/white"
+                android:background="@color/colorPrimary"
                 android:id="@+id/email_sign_in_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
+                android:text="起飞!!!"
                 android:textStyle="bold" />
 
             <TextView
-                android:textColor="@color/colorPrimary"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center_horizontal"
                 android:id="@+id/btn_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="没有账号,前去注册" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="没有账号,前去注册"
+                android:textColor="@color/colorPrimary" />
+
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

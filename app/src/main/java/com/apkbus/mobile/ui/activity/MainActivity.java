@@ -39,6 +39,9 @@ import com.apkbus.mobile.ui.fragment.ArticleFragment;
 import com.apkbus.mobile.utils.LToast;
 import com.apkbus.mobile.utils.SharedPreferencesHelper;
 
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+
 public class MainActivity extends BaseActivity<MainContract.Presenter> implements MainContract.View {
 
     /**
@@ -107,6 +110,21 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                     SharedPreferencesHelper.getInstance(mContext).saveToken(new LoginInfo());
                     startActivity(new Intent(mContext, LoginActivity.class));
                     finish();
+                    break;
+                case R.id.navigation_item_share:
+                    // new OneKeyShare();
+                    OnekeyShare share = new OnekeyShare();
+                    share.disableSSOWhenAuthorize();
+                    share.setTitle("ApkBus");
+                    share.setTitleUrl("http://fir.im/ve7m");
+                    share.setText("ApkBus_哈哈哈哦啦啦");
+                    share.setUrl("http://fir.im/ve7m");
+                    share.setImageUrl("http://www.apkbus.com/static/image/common/logo.png");
+                    share.setSiteUrl("http://fir.im/ve7m");
+                    share.setSite("ApkBus");
+                    share.show(this);
+                    drawerLayout.closeDrawers();
+                    break;
             }
             //menuItem.setChecked(!menuItem.isChecked());
             //drawerLayout.closeDrawers();
@@ -153,13 +171,13 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 
     @Override
     public void showMsg(CharSequence msg) {
-        LToast.show(this,msg);
+        LToast.show(this, msg);
     }
 
     @Override
     public void bindData(User data) {
         loadingDialog.dismiss();
-        if (data == null|| TextUtils.isEmpty(data.getNickname())) return;
+        if (data == null || TextUtils.isEmpty(data.getNickname())) return;
         mTextUsername.setText(data.getNickname());
     }
 

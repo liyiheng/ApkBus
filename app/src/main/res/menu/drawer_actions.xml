@@ -23,9 +23,14 @@
         android:title="自动刷新"
         app:actionLayout="@layout/action_navi_item" />
     <item
+        android:id="@+id/navigation_item_share"
+        android:icon="@mipmap/ic_share_black_24dp"
+        android:title="分享" />
+    <item
         android:id="@+id/navigation_item_logout"
         android:icon="@mipmap/ic_exit_to_app_black_24dp"
         android:title="退出登录" />
+
     <item
         android:id="@+id/statistics_navigation_menu_item"
         android:icon="@mipmap/ic_launcher"

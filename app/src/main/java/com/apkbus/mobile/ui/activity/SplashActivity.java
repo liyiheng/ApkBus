@@ -15,6 +15,11 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         LoginInfo token = SharedPreferencesHelper.getInstance(mContext).getToken();
         if (token == null || TextUtils.isEmpty(token.getUid())) {
             startActivity(new Intent(this, LoginActivity.class));

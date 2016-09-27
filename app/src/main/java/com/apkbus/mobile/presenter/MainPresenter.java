@@ -62,7 +62,7 @@ public class MainPresenter implements MainContract.Presenter {
                     @Override
                     public void onNext(MobWrapper<String> stringMobWrapper) {
                         if (!"200".equals(stringMobWrapper.getRetCode())) {
-                            Log.e("MainPresenter", "UnExcepted:" + stringMobWrapper.getRetCode());
+                            Log.e("MainPresenter", "Unexpected:" + stringMobWrapper.getRetCode());
                             Log.e("MainPresenter", "Message:   " + stringMobWrapper.getMsg());
                         }
                         User user = new User();
