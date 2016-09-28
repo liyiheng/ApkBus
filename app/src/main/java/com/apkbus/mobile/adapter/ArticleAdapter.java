@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by liyiheng on 16/9/19.
  */
-public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleHolder> implements View.OnClickListener {
+public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleHolder> implements View.OnClickListener, View.OnLongClickListener {
     private final LayoutInflater mInflater;
     private List<FirstBean> mData;
 
@@ -58,6 +58,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleH
         holder.avatar.setImageURI(bean.getAvatar_middle());
         holder.nickName.setText(bean.getAuthor());
         holder.itemView.setOnClickListener(this);
+        holder.itemView.setOnLongClickListener(this);
         holder.itemView.setTag(bean);
     }
 
@@ -86,8 +87,22 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleH
         this.mInterf = cb;
     }
 
+    @Override
+    public boolean onLongClick(View v) {
+        switch (v.getId()){
+            case R.id.item_demos_root:
+                if (mInterf!=null){
+                    FirstBean tag = (FirstBean) v.getTag();
+                    mInterf.onItemLongClick(tag);
+                }
+                break;
+        }
+        return false;
+    }
+
     public interface ClickCallback {
         void onItemClick(FirstBean bean);
+        void onItemLongClick(FirstBean bean);
     }
 
     public static class ArticleHolder extends RecyclerView.ViewHolder {

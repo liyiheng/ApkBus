@@ -115,6 +115,11 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
     }
 
     @Override
+    public void onItemLongClick(FirstBean bean) {
+
+    }
+
+    @Override
     public void onItemClick(Blog bean) {
         Intent intent = new Intent(Intent.ACTION_DEFAULT, Uri.parse(bean.getUrl() + "&mobile=yes"));
         startActivity(intent);

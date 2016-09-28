@@ -12,9 +12,17 @@ android {
         versionName "0.1"
 
     }
+    signingConfigs {
+        debug {
+            storeFile file("keystore.jks")
+            storePassword("liyiheng")
+            keyAlias("apkbus")
+            keyPassword("liyiheng")
+        }
+    }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
