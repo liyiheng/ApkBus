@@ -24,6 +24,8 @@ import com.apkbus.mobile.utils.SwipeRefresh;
 
 import java.util.List;
 
+import cn.sharesdk.onekeyshare.OnekeyShare;
+
 /**
  * Created by liyiheng on 16/9/19.
  */
@@ -99,9 +101,27 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
         MaterialDialog dialog = new MaterialDialog
                 .Builder(getContext())
                 .title(bean.getTitle())
-                .items("哈哈哈", "呵呵呵", "嘿嘿嘿")
+                .items("分享", "呵呵呵", "嘿嘿嘿")
                 .itemsCallback((MaterialDialog d, View itemView, int position, CharSequence text)
-                        -> LToast.show(getContext(), text))
+                        -> {
+                    switch (position){
+                        case 0:
+                            OnekeyShare onekeyShare = new OnekeyShare();
+                            onekeyShare.disableSSOWhenAuthorize();
+                            onekeyShare.setTitle(bean.getTitle());
+                            onekeyShare.setTitleUrl(bean.getURL());
+                            onekeyShare.setText(bean.getNickname());
+                            onekeyShare.setUrl(bean.getURL());
+                            onekeyShare.setImageUrl(bean.getAuthorAvatar());
+                            onekeyShare.setSiteUrl(bean.getURL());
+                            onekeyShare.setSite("ApkBus");
+                            onekeyShare.show(getContext());
+                            break;
+                        default:
+                            LToast.show(getContext(), text);
+                            break;
+                    }
+                })
                 .build();
         TextView titleView = dialog.getTitleView();
         titleView.setSingleLine(true);
@@ -117,9 +137,7 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
 
     @Override
     public void updateData(List<Bean> data) {
-        if (mAdapter != null) {
-            mAdapter.updateRes(data);
-        }
+        mAdapter.updateRes(data);
         mSwipeRefresh.setRefreshing(false);
     }
 

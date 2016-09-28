@@ -100,6 +100,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleH
         return false;
     }
 
+    /**
+     * CallBack for click events.
+     */
     public interface ClickCallback {
         void onItemClick(Bean bean);
         void onItemLongClick(Bean bean);
