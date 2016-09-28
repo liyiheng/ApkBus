@@ -20,7 +20,14 @@ public interface MainContract {
 
     interface Presenter extends BasePresenter {
         void initData();
-        void setUserProfile(UserProfile item,String value);
+
+        void setUserProfile(UserProfile item, String value);
+
+        /**
+         * Send a signal while clicking current tab.
+         *
+         * @param currentTab The tab clicked.
+         */
         void sendScrollSignal(TabLayout.Tab currentTab);
     }
 }
