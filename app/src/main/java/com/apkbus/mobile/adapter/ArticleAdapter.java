@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.apkbus.mobile.R;
-import com.apkbus.mobile.bean.FirstBean;
+import com.apkbus.mobile.bean.Bean;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleHolder> implements View.OnClickListener, View.OnLongClickListener {
     private final LayoutInflater mInflater;
-    private List<FirstBean> mData;
+    private List<Bean> mData;
 
     public ArticleAdapter(Context context) {
         mInflater = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
@@ -31,14 +31,14 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleH
      *
      * @param res New data.
      */
-    public void updateRes(List<FirstBean> res) {
+    public void updateRes(List<Bean> res) {
         if (res != null) {
             this.mData = res;
             notifyDataSetChanged();
         }
     }
 
-    public void addRes(List<FirstBean> res) {
+    public void addRes(List<Bean> res) {
         if (res != null) {
             this.mData.addAll(res);
             notifyDataSetChanged();
@@ -53,10 +53,10 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleH
 
     @Override
     public void onBindViewHolder(ArticleHolder holder, int position) {
-        FirstBean bean = mData.get(position);
-        holder.title.setText(bean.getFulltitle());
-        holder.avatar.setImageURI(bean.getAvatar_middle());
-        holder.nickName.setText(bean.getAuthor());
+        Bean bean = mData.get(position);
+        holder.title.setText(bean.getTitle());
+        holder.avatar.setImageURI(bean.getAuthorAvatar());
+        holder.nickName.setText(bean.getNickname());
         holder.itemView.setOnClickListener(this);
         holder.itemView.setOnLongClickListener(this);
         holder.itemView.setTag(bean);
@@ -75,7 +75,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleH
         }
         switch (v.getId()) {
             case R.id.item_demos_root:
-                FirstBean tag = (FirstBean) v.getTag();
+                Bean tag = (Bean) v.getTag();
                 mInterf.onItemClick(tag);
                 break;
         }
@@ -92,17 +92,17 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleH
         switch (v.getId()){
             case R.id.item_demos_root:
                 if (mInterf!=null){
-                    FirstBean tag = (FirstBean) v.getTag();
+                    Bean tag = (Bean) v.getTag();
                     mInterf.onItemLongClick(tag);
                 }
-                break;
+                return true;
         }
         return false;
     }
 
     public interface ClickCallback {
-        void onItemClick(FirstBean bean);
-        void onItemLongClick(FirstBean bean);
+        void onItemClick(Bean bean);
+        void onItemLongClick(Bean bean);
     }
 
     public static class ArticleHolder extends RecyclerView.ViewHolder {

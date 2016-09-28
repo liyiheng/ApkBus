@@ -1,9 +1,8 @@
 package com.apkbus.mobile.apis;
 
 
+import com.apkbus.mobile.bean.Bean;
 import com.apkbus.mobile.bean.BeanWrapper;
-import com.apkbus.mobile.bean.Blog;
-import com.apkbus.mobile.bean.FirstBean;
 
 import java.io.IOException;
 
@@ -55,31 +54,31 @@ public class RxAPI {
         topicService = retrofit.create(TopicService.class);
     }
 
-    public Observable<BeanWrapper<Blog>> getPopularArticles() {
+    public Observable<BeanWrapper<Bean>> getPopularArticles() {
         return topicService.getBlogs(TopicService.BLOG_POPULAR)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<BeanWrapper<Blog>> getLatestArticles() {
+    public Observable<BeanWrapper<Bean>> getLatestArticles() {
         return topicService.getBlogs(TopicService.BLOG_LATEST)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<BeanWrapper<FirstBean>> getDemos() {
+    public Observable<BeanWrapper<Bean>> getDemos() {
         return topicService.getArticles(TopicService.DEMOS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<BeanWrapper<FirstBean>> getAwsomeSource() {
+    public Observable<BeanWrapper<Bean>> getAwsomeSource() {
         return topicService.getArticles(TopicService.AWSOME_SOURCE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<BeanWrapper<FirstBean>> getWeeklyPopular() {
+    public Observable<BeanWrapper<Bean>> getWeeklyPopular() {
         return topicService.getArticles(TopicService.WEEKLY_POPULAR)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

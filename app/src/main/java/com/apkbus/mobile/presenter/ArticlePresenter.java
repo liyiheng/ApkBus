@@ -5,8 +5,7 @@ import com.apkbus.mobile.constract.ArticleContract;
 import com.apkbus.mobile.apis.LSubscriber;
 import com.apkbus.mobile.apis.RxAPI;
 import com.apkbus.mobile.bean.BeanWrapper;
-import com.apkbus.mobile.bean.Blog;
-import com.apkbus.mobile.bean.FirstBean;
+import com.apkbus.mobile.bean.Bean;
 import com.apkbus.mobile.utils.ACache;
 import com.apkbus.mobile.utils.SharedPreferencesHelper;
 import com.google.gson.Gson;
@@ -17,8 +16,6 @@ import org.json.JSONObject;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -57,23 +54,22 @@ public class ArticlePresenter implements ArticleContract.Presenter {
     public void initData() {
         final Gson gson = new Gson();
         RxAPI api = RxAPI.getInstance();
-        Observable<BeanWrapper<Blog>> blogObserver = null;
-        Observable<BeanWrapper<FirstBean>> commonObserver = null;
+        Observable<BeanWrapper<Bean>> observer = null;
         switch (SECTION_INDEX) {
             case 0:
-                blogObserver = api.getPopularArticles();
+                observer = api.getPopularArticles();
                 break;
             case 1:
-                blogObserver = api.getLatestArticles();
+                observer = api.getLatestArticles();
                 break;
             case 2:
-                commonObserver = api.getAwsomeSource();
+                observer = api.getAwsomeSource();
                 break;
             case 3:
-                commonObserver = api.getWeeklyPopular();
+                observer = api.getWeeklyPopular();
                 break;
             case 4:
-                commonObserver = api.getDemos();
+                observer = api.getDemos();
                 break;
         }
 
@@ -81,55 +77,28 @@ public class ArticlePresenter implements ArticleContract.Presenter {
         if (firstTime) {
             firstTime = false;
             JSONObject jsonObject = aCache.getAsJSONObject("DATA" + SECTION_INDEX);
-            if (jsonObject != null) {
-                if (blogObserver != null) {
-                    BeanWrapper<Blog> data = gson.fromJson(jsonObject.toString(), new TypeToken<BeanWrapper<Blog>>() {
-                    }.getType());
-                    mView.updateData2(data.getRes());
-                } else if (commonObserver != null) {
-                    BeanWrapper<FirstBean> data = gson.fromJson(jsonObject.toString(), new TypeToken<BeanWrapper<FirstBean>>() {
-                    }.getType());
-                    mView.updateData(data.getRes());
-                }
+            if (jsonObject != null && observer != null) {
+                BeanWrapper<Bean> data = gson.fromJson(jsonObject.toString(), new TypeToken<BeanWrapper<Bean>>() {
+                }.getType());
+                mView.updateData(data.getRes());
+            } else {
+                // Stop SwipeRefreshLayout refreshing.
+                mView.updateData(null);
             }
-            // Stop SwipeRefreshLayout refreshing.
-            mView.updateData2(null);
-            mView.updateData(null);
-
             boolean autoRenew = SharedPreferencesHelper.getInstance(mView.getContext()).needAutoRenew();
             if (!autoRenew) return;
         }
 
 
         // Request data from server.
-        if (blogObserver != null) {
-            Subscription subscribe = blogObserver
+        if (observer != null) {
+            Subscription subscribe = observer
                     .observeOn(Schedulers.io())
-                    .doOnNext((BeanWrapper<Blog> blogBeanWrapper) ->
+                    .doOnNext((BeanWrapper<Bean> blogBeanWrapper) ->
                             // Cache data in IO-thread.
                             aCache.put("DATA" + SECTION_INDEX, gson.toJson(blogBeanWrapper)))
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new LSubscriber<BeanWrapper<Blog>>() {
-
-
-                        @Override
-                        protected void onError(int httpStatusCode, MobError error) {
-                            mView.showMsg(error.getMsg());
-                        }
-
-                        @Override
-                        public void onNext(BeanWrapper<Blog> data) {
-                            mView.updateData2(data.getRes());
-                        }
-                    });
-            mSubscriptions.add(subscribe);
-        } else if (commonObserver != null) {
-            Subscription subscribe = commonObserver
-                    .observeOn(Schedulers.io())
-                    .doOnNext((BeanWrapper<FirstBean> firstBeanBeanWrapper) ->
-                            aCache.put("DATA" + SECTION_INDEX, gson.toJson(firstBeanBeanWrapper)))
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new LSubscriber<BeanWrapper<FirstBean>>() {
+                    .subscribe(new LSubscriber<BeanWrapper<Bean>>() {
 
                         @Override
                         protected void onError(int httpStatusCode, MobError error) {
@@ -137,14 +106,14 @@ public class ArticlePresenter implements ArticleContract.Presenter {
                         }
 
                         @Override
-                        public void onNext(BeanWrapper<FirstBean> data) {
+                        public void onNext(BeanWrapper<Bean> data) {
                             mView.updateData(data.getRes());
                         }
                     });
             mSubscriptions.add(subscribe);
         } else {
             // setRefreshing(false)
-            mView.updateData2(null);
+            mView.updateData(null);
         }
     }
 }

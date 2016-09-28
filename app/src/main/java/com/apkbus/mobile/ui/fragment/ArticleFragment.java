@@ -7,16 +7,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.apkbus.mobile.adapter.BlogAdapter;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.apkbus.mobile.constract.ArticleContract;
 import com.apkbus.mobile.R;
 import com.apkbus.mobile.adapter.ArticleAdapter;
-import com.apkbus.mobile.bean.Blog;
-import com.apkbus.mobile.bean.FirstBean;
+import com.apkbus.mobile.bean.Bean;
 import com.apkbus.mobile.presenter.ArticlePresenter;
 import com.apkbus.mobile.utils.LToast;
 import com.apkbus.mobile.utils.SwipeRefresh;
@@ -26,7 +27,7 @@ import java.util.List;
 /**
  * Created by liyiheng on 16/9/19.
  */
-public class ArticleFragment extends BaseFragment implements ArticleContract.View, SwipeRefreshLayout.OnRefreshListener, ArticleAdapter.ClickCallback, BlogAdapter.ClickCallback {
+public class ArticleFragment extends BaseFragment implements ArticleContract.View, SwipeRefreshLayout.OnRefreshListener, ArticleAdapter.ClickCallback {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -39,7 +40,6 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
     private SwipeRefreshLayout mSwipeRefresh;
     private RecyclerView mRecyclerView;
     private ArticleAdapter mAdapter;
-    private BlogAdapter blogAdapter;
 
     public ArticleFragment() {
     }
@@ -67,15 +67,10 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
         mSwipeRefresh.setOnRefreshListener(this);
         mRecyclerView = ((RecyclerView) layout.findViewById(R.id.fragment_article_recycler));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        if (SECTION_NUMBER > 1) {
-            mAdapter = new ArticleAdapter(getContext());
-            mAdapter.setCallback(this);
-            mRecyclerView.setAdapter(mAdapter);
-        } else {
-            blogAdapter = new BlogAdapter(getContext());
-            blogAdapter.setCallback(this);
-            mRecyclerView.setAdapter(blogAdapter);
-        }
+
+        mAdapter = new ArticleAdapter(getContext());
+        mAdapter.setCallback(this);
+        mRecyclerView.setAdapter(mAdapter);
         return layout;
     }
 
@@ -91,42 +86,41 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
         mPresenter.initData();
     }
 
+
     @Override
-    public void updateData(List<FirstBean> data) {
+    public void onItemClick(Bean bean) {
+        Intent intent = new Intent(Intent.ACTION_DEFAULT, Uri.parse(bean.getURL() + "&mobile=yes"));
+        startActivity(intent);
+        // WebActivity.loadURL(getContext(), bean.getUrl() + "&mobile=yes");
+    }
+
+    @Override
+    public void onItemLongClick(Bean bean) {
+        MaterialDialog dialog = new MaterialDialog
+                .Builder(getContext())
+                .title(bean.getTitle())
+                .items("哈哈哈", "呵呵呵", "嘿嘿嘿")
+                .itemsCallback((MaterialDialog d, View itemView, int position, CharSequence text)
+                        -> LToast.show(getContext(), text))
+                .build();
+        TextView titleView = dialog.getTitleView();
+        titleView.setSingleLine(true);
+        titleView.setEllipsize(TextUtils.TruncateAt.END);
+        dialog.show();
+    }
+
+
+    @Override
+    public void showMsg(CharSequence msg) {
+        LToast.show(getContext(), msg);
+    }
+
+    @Override
+    public void updateData(List<Bean> data) {
         if (mAdapter != null) {
             mAdapter.updateRes(data);
         }
         mSwipeRefresh.setRefreshing(false);
     }
 
-    @Override
-    public void updateData2(List<Blog> data) {
-        if (blogAdapter != null) {
-            blogAdapter.updateRes(data);
-        }
-        mSwipeRefresh.setRefreshing(false);
-    }
-
-    @Override
-    public void onItemClick(FirstBean bean) {
-        Intent intent = new Intent(Intent.ACTION_DEFAULT, Uri.parse(bean.getUrl() + "&mobile=yes"));
-        startActivity(intent);
-        // WebActivity.loadURL(getContext(), bean.getUrl() + "&mobile=yes");
-    }
-
-    @Override
-    public void onItemLongClick(FirstBean bean) {
-
-    }
-
-    @Override
-    public void onItemClick(Blog bean) {
-        Intent intent = new Intent(Intent.ACTION_DEFAULT, Uri.parse(bean.getUrl() + "&mobile=yes"));
-        startActivity(intent);
-    }
-
-    @Override
-    public void showMsg(CharSequence msg) {
-        LToast.show(getContext(), msg);
-    }
 }

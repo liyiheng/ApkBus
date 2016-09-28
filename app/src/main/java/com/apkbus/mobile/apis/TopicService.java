@@ -2,8 +2,7 @@ package com.apkbus.mobile.apis;
 
 
 import com.apkbus.mobile.bean.BeanWrapper;
-import com.apkbus.mobile.bean.Blog;
-import com.apkbus.mobile.bean.FirstBean;
+import com.apkbus.mobile.bean.Bean;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -36,7 +35,7 @@ public interface TopicService {
      * @param bid Should be one of {@link #WEEKLY_POPULAR,#AWSOME_SOURCE,#DEMOS}
      */
     @GET("api.php?mod=js&type=json")
-    Observable<BeanWrapper<FirstBean>> getArticles(@Query("bid") int bid);
+    Observable<BeanWrapper<Bean>> getArticles(@Query("bid") int bid);
 
     String DOMAIN = "http://www.apkbus.com/";
 
@@ -50,5 +49,5 @@ public interface TopicService {
      * @param bid Should be one of {@link #BLOG_LATEST,#BLOG_POPULAR}
      */
     @GET("api.php?mod=js&type=json")
-    Observable<BeanWrapper<Blog>> getBlogs(@Query("bid") int bid);
+    Observable<BeanWrapper<Bean>> getBlogs(@Query("bid") int bid);
 }
