@@ -1,5 +1,7 @@
 package com.apkbus.mobile.constract;
 
+import android.support.design.widget.TabLayout;
+
 import com.apkbus.mobile.BasePresenter;
 import com.apkbus.mobile.BaseView;
 import com.apkbus.mobile.bean.User;
@@ -19,5 +21,6 @@ public interface MainContract {
     interface Presenter extends BasePresenter {
         void initData();
         void setUserProfile(UserProfile item,String value);
+        void sendScrollSignal(TabLayout.Tab currentTab);
     }
 }

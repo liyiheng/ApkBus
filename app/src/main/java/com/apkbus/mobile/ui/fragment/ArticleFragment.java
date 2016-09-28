@@ -104,7 +104,7 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
                 .items("分享", "呵呵呵", "嘿嘿嘿")
                 .itemsCallback((MaterialDialog d, View itemView, int position, CharSequence text)
                         -> {
-                    switch (position){
+                    switch (position) {
                         case 0:
                             OnekeyShare onekeyShare = new OnekeyShare();
                             onekeyShare.disableSSOWhenAuthorize();
@@ -139,6 +139,13 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
     public void updateData(List<Bean> data) {
         mAdapter.updateRes(data);
         mSwipeRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void scroll2Top() {
+        if (mRecyclerView != null) {
+            mRecyclerView.scrollToPosition(0);
+        }
     }
 
 }

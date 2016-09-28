@@ -1,5 +1,6 @@
 package com.apkbus.mobile.presenter;
 
+import android.support.design.widget.TabLayout;
 import android.util.Log;
 
 import com.apkbus.mobile.apis.LSubscriber;
@@ -9,7 +10,9 @@ import com.apkbus.mobile.bean.LoginInfo;
 import com.apkbus.mobile.bean.MobWrapper;
 import com.apkbus.mobile.bean.User;
 import com.apkbus.mobile.bean.UserProfile;
+import com.apkbus.mobile.bean.event.ScrollSignal;
 import com.apkbus.mobile.constract.MainContract;
+import com.apkbus.mobile.utils.RxBus;
 import com.apkbus.mobile.utils.SharedPreferencesHelper;
 
 import rx.Subscription;
@@ -100,5 +103,19 @@ public class MainPresenter implements MainContract.Presenter {
         mSubscriptions.add(subscribe);
     }
 
+    /**
+     * Write down the position of last selected tab.
+     * If it is same with the current one, send a signal.
+     */
+    private int lastSelectedTab;
+
+    @Override
+    public void sendScrollSignal(TabLayout.Tab currentTab) {
+        int currentTabPosition = currentTab.getPosition();
+        if (currentTabPosition == lastSelectedTab) {
+            RxBus.getInstance().post(new ScrollSignal(currentTabPosition));
+        }
+        lastSelectedTab = currentTabPosition;
+    }
 
 }

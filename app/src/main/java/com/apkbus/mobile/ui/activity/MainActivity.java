@@ -43,7 +43,7 @@ import com.apkbus.mobile.utils.SharedPreferencesHelper;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
-public class MainActivity extends BaseActivity<MainContract.Presenter> implements MainContract.View, View.OnClickListener {
+public class MainActivity extends BaseActivity<MainContract.Presenter> implements MainContract.View, View.OnClickListener, TabLayout.OnTabSelectedListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -95,6 +95,8 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         mViewPager.setOffscreenPageLimit(4);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.removeOnTabSelectedListener(this);
+        tabLayout.addOnTabSelectedListener(this);
         tabLayout.setupWithViewPager(mViewPager);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -194,6 +196,21 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                         }).show();
                 break;
         }
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        mPresenter.sendScrollSignal(tab);
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+        mPresenter.sendScrollSignal(tab);
     }
 
 

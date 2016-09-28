@@ -17,6 +17,11 @@ public interface ArticleContract {
          */
         void updateData(List<Bean> data);
 
+        /**
+         * Scroll the recyclerView to position 0.
+         */
+        void scroll2Top();
+
     }
 
     interface Presenter extends BasePresenter {

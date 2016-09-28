@@ -1,12 +1,14 @@
 package com.apkbus.mobile.presenter;
 
 import com.apkbus.mobile.apis.MobError;
+import com.apkbus.mobile.bean.event.ScrollSignal;
 import com.apkbus.mobile.constract.ArticleContract;
 import com.apkbus.mobile.apis.LSubscriber;
 import com.apkbus.mobile.apis.RxAPI;
 import com.apkbus.mobile.bean.BeanWrapper;
 import com.apkbus.mobile.bean.Bean;
 import com.apkbus.mobile.utils.ACache;
+import com.apkbus.mobile.utils.RxBus;
 import com.apkbus.mobile.utils.SharedPreferencesHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -16,6 +18,7 @@ import org.json.JSONObject;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -41,11 +44,20 @@ public class ArticlePresenter implements ArticleContract.Presenter {
     private int SECTION_INDEX;
     private CompositeSubscription mSubscriptions;
 
-    public ArticlePresenter(ArticleContract.View mView, int sectionIndex, CompositeSubscription s) {
-        this.mView = mView;
+    public ArticlePresenter(ArticleContract.View view, int sectionIndex, CompositeSubscription s) {
+        this.mView = view;
         this.SECTION_INDEX = sectionIndex;
         mSubscriptions = s;
         aCache = ACache.get(mView.getContext().getApplicationContext());
+        Subscription subscription = RxBus
+                .getInstance()
+                .toSubscription(ScrollSignal.class, (ScrollSignal scrollSignal)
+                        -> {
+                    if (scrollSignal.tabPosition == SECTION_INDEX) {
+                        mView.scroll2Top();
+                    }
+                });
+        mSubscriptions.add(subscription);
     }
 
     private boolean firstTime = true;
