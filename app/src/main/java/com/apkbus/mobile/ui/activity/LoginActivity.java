@@ -62,8 +62,9 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        findViewById(R.id.btn_forget).setOnClickListener(view->LToast.show(mContext,"呵呵呵"));
-
+        findViewById(R.id.btn_forget)
+                .setOnClickListener(view ->
+                        startActivity(new Intent(mContext, ForgetPasswordActivity.class)));
         mPasswordView = (EditText) findViewById(R.id.password);
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
