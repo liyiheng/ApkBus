@@ -2,6 +2,7 @@ package com.apkbus.mobile.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -42,7 +43,7 @@ import com.apkbus.mobile.utils.SharedPreferencesHelper;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
-public class MainActivity extends BaseActivity<MainContract.Presenter> implements MainContract.View {
+public class MainActivity extends BaseActivity<MainContract.Presenter> implements MainContract.View, View.OnClickListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -83,7 +84,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         actionBarDrawerToggle.syncState();
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener((View view) -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show());
+        fab.setOnClickListener(this);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -180,6 +181,19 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         loadingDialog.dismiss();
         if (data == null || TextUtils.isEmpty(data.getNickname())) return;
         mTextUsername.setText(data.getNickname());
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab:
+                Snackbar.make(v, "Developer? Help us expand this app", Snackbar.LENGTH_LONG)
+                        .setAction("Join us", (View view) -> {
+                            Intent intent = new Intent(Intent.ACTION_DEFAULT, Uri.parse("https://github.com/XanthusL/ApkBus"));
+                            startActivity(intent);
+                        }).show();
+                break;
+        }
     }
 
 
