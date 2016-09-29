@@ -77,7 +77,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.RegisterActivity" />
-        <activity android:name=".ui.activity.ForgetPasswordActivity"></activity>
+        <activity android:name=".ui.activity.ForgetPasswordActivity" />
+        <activity android:name=".ui.activity.GiftsActivity"></activity>
     </application>
 
 </manifest>

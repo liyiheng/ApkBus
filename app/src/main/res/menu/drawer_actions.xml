@@ -36,7 +36,7 @@
         android:icon="@mipmap/ic_launcher"
         android:title="嘿嘿嘿" />
     <item
-        android:id="@+id/temp"
-        android:icon="@mipmap/ic_launcher"
-        android:title="哈哈哈" />
+        android:id="@+id/navigation_item_gifts"
+        android:icon="@mipmap/ic_card_giftcard_black_24dp"
+        android:title="福利" />
 </menu>

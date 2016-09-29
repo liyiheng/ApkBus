@@ -129,6 +129,10 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                     share.show(this);
                     drawerLayout.closeDrawers();
                     break;
+                case R.id.navigation_item_gifts:
+                    startActivity(new Intent(mContext, GiftsActivity.class));
+                    drawerLayout.closeDrawers();
+                    break;
             }
             //menuItem.setChecked(!menuItem.isChecked());
             //drawerLayout.closeDrawers();
