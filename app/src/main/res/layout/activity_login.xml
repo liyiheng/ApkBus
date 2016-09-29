@@ -90,6 +90,10 @@
                 android:text="没有账号,前去注册"
                 android:textColor="@color/colorPrimary" />
 
+            <TextView
+                android:text="测试账号:哈哈哈\n密码:123456"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </ScrollView>
