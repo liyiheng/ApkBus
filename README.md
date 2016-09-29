@@ -5,7 +5,9 @@ Account for test: 哈哈哈
 
 Password: 123456
 
+### apk download：
 
+#### 1.Fir.im:[click me](http://fir.im/ve7m)
 
 ### Contributing
 
