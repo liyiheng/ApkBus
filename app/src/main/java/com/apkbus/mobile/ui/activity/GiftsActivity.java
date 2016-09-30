@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.View;
 
 import com.apkbus.mobile.R;
 import com.apkbus.mobile.adapter.GiftAdapter;
@@ -26,6 +27,7 @@ public class GiftsActivity extends BaseActivity<GiftContract.Presenter> implemen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gifts);
+
         swipeRefresh = ((SwipeRefreshLayout) findViewById(R.id.gift_swipe_refresh));
         SwipeRefresh.initSwipeRefreshLayout(swipeRefresh, mContext);
         swipeRefresh.setOnRefreshListener(this);
@@ -41,6 +43,8 @@ public class GiftsActivity extends BaseActivity<GiftContract.Presenter> implemen
                 mPresenter.loadMore();
             }
         });
+        findViewById(R.id.fab_gifts)
+                .setOnClickListener((View v) -> recyclerView.scrollToPosition(0));
         mPresenter.initData();
     }
 
