@@ -1,5 +1,6 @@
 package com.apkbus.mobile.presenter;
 
+import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.util.Log;
 
@@ -45,6 +46,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void initData() {
+        lastTimestamp = System.currentTimeMillis();
         LoginInfo token = SharedPreferencesHelper.getInstance(mView.getContext()).getToken();
         if (token == null) {
             mView.bindData(null);
@@ -127,7 +129,7 @@ public class MainPresenter implements MainContract.Presenter {
     public void pageScrolled() {
         long l = System.currentTimeMillis() - lastTimestamp;
         long l1 = l / 1000 ;
-        if (l1>40){
+        if (l1>60){
             mView.showAD();
         }
     }
