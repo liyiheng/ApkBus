@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,13 +42,16 @@ import com.apkbus.mobile.ui.fragment.ArticleFragment;
 import com.apkbus.mobile.utils.LToast;
 import com.apkbus.mobile.utils.SharedPreferencesHelper;
 
+import net.youmi.android.listener.OffersWallDialogListener;
+import net.youmi.android.offers.OffersManager;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
-public class MainActivity extends BaseActivity<MainContract.Presenter> implements MainContract.View, View.OnClickListener, TabLayout.OnTabSelectedListener {
+public class MainActivity extends BaseActivity<MainContract.Presenter> implements MainContract.View, View.OnClickListener, TabLayout.OnTabSelectedListener, OffersWallDialogListener, ViewPager.OnPageChangeListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -79,6 +83,11 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         return new MainPresenter(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        OffersManager.getInstance(this).onAppExit();
+    }
 
     private void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -98,6 +107,8 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setOffscreenPageLimit(4);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.removeOnPageChangeListener(this);
+        mViewPager.addOnPageChangeListener(this);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.removeOnTabSelectedListener(this);
         tabLayout.addOnTabSelectedListener(this);
@@ -193,6 +204,19 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         mTextUsername.setText(data.getNickname());
     }
 
+    private int dialogHeight = 0;
+    private int dialogWidth = 0;
+
+    @Override
+    public void showAD() {
+        if (dialogHeight == 0) {
+            DisplayMetrics metrics = getResources().getDisplayMetrics();
+            dialogHeight = metrics.heightPixels / 2;
+            dialogWidth =  metrics.widthPixels;
+        }
+        OffersManager.getInstance(this).showOffersWallDialog(this, dialogWidth, dialogHeight, this);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -229,6 +253,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         }
         return false;
     }
+
     private boolean isExit = false;
 
     private void exitBy2Click() {
@@ -246,6 +271,26 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         } else {
             finish();
         }
+    }
+
+    @Override
+    public void onDialogClose() {
+        mPresenter.onADClosed();
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        mPresenter.pageScrolled();
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 
     /**

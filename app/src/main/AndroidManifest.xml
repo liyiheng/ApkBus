@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.apkbus.mobile">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -19,6 +20,21 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- 以下为可选权限 -->
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+
+    <meta-data
+        android:name="YOUMI_CHANNEL"
+        android:value="65534" >
+    </meta-data>
     <application
         android:name=".BusApp"
         android:allowBackup="true"
@@ -78,6 +94,26 @@
         </activity>
         <activity android:name=".ui.activity.RegisterActivity" />
         <activity android:name=".ui.activity.ForgetPasswordActivity" />
+        <activity
+            android:name="net.youmi.android.AdBrowser"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <service
+            android:name="net.youmi.android.AdService"
+            android:exported="false" >
+        </service>
+        <service
+            android:name="net.youmi.android.ExpService"
+            android:exported="false" >
+        </service>
+        <receiver
+            android:name="net.youmi.android.AdReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
         <activity android:name=".ui.activity.GiftsActivity"></activity>
     </application>
 

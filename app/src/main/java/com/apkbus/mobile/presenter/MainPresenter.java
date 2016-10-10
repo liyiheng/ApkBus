@@ -118,4 +118,18 @@ public class MainPresenter implements MainContract.Presenter {
         lastSelectedTab = currentTabPosition;
     }
 
+    @Override
+    public void onADClosed() {
+        lastTimestamp = System.currentTimeMillis();
+    }
+
+    @Override
+    public void pageScrolled() {
+        long l = System.currentTimeMillis() - lastTimestamp;
+        long l1 = l / 1000 ;
+        if (l1>40){
+            mView.showAD();
+        }
+    }
+    private long lastTimestamp;
 }

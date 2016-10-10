@@ -16,6 +16,7 @@ public interface MainContract {
 
     interface View extends BaseView<Presenter> {
         void bindData(User data);
+        void showAD();
     }
 
     interface Presenter extends BasePresenter {
@@ -29,5 +30,9 @@ public interface MainContract {
          * @param currentTab The tab clicked.
          */
         void sendScrollSignal(TabLayout.Tab currentTab);
+
+        void onADClosed();
+
+        void pageScrolled();
     }
 }
