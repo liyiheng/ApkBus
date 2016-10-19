@@ -19,11 +19,8 @@
     <!-- 蓝牙分享所需的权限 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-
-
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-
-
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
@@ -33,8 +30,8 @@
 
     <meta-data
         android:name="YOUMI_CHANNEL"
-        android:value="65534" >
-    </meta-data>
+        android:value="65534" />
+
     <application
         android:name=".BusApp"
         android:allowBackup="true"
@@ -97,24 +94,25 @@
         <activity
             android:name="net.youmi.android.AdBrowser"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
-        </activity>
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+
         <service
             android:name="net.youmi.android.AdService"
-            android:exported="false" >
-        </service>
+            android:exported="false" />
         <service
             android:name="net.youmi.android.ExpService"
-            android:exported="false" >
-        </service>
-        <receiver
-            android:name="net.youmi.android.AdReceiver" >
+            android:exported="false" />
+
+        <receiver android:name="net.youmi.android.AdReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
+
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
-        <activity android:name=".ui.activity.GiftsActivity"></activity>
+
+        <activity android:name=".ui.activity.GiftsActivity" />
+        <activity android:name=".ui.activity.ChatActivity"></activity>
     </application>
 
 </manifest>

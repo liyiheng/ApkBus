@@ -151,6 +151,10 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                     startActivity(new Intent(mContext, GiftsActivity.class));
                     drawerLayout.closeDrawers();
                     break;
+                case R.id.navigation_menu_item_robot:
+                    drawerLayout.closeDrawers();
+                    startActivity(new Intent(mContext, ChatActivity.class));
+                    break;
             }
             //menuItem.setChecked(!menuItem.isChecked());
             //drawerLayout.closeDrawers();
@@ -190,7 +194,8 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_about) {
+            LToast.show(this, "...");
             return true;
         }
         return super.onOptionsItemSelected(item);
