@@ -2,13 +2,13 @@ package com.apkbus.mobile.presenter;
 
 import android.support.annotation.IntDef;
 
+import com.apkbus.mobile.apis.LSubscriber;
 import com.apkbus.mobile.apis.MobError;
+import com.apkbus.mobile.apis.RxAPI;
+import com.apkbus.mobile.bean.Bean;
+import com.apkbus.mobile.bean.BeanWrapper;
 import com.apkbus.mobile.bean.event.ScrollSignal;
 import com.apkbus.mobile.constract.ArticleContract;
-import com.apkbus.mobile.apis.LSubscriber;
-import com.apkbus.mobile.apis.RxAPI;
-import com.apkbus.mobile.bean.BeanWrapper;
-import com.apkbus.mobile.bean.Bean;
 import com.apkbus.mobile.utils.ACache;
 import com.apkbus.mobile.utils.RxBus;
 import com.apkbus.mobile.utils.SharedPreferencesHelper;
@@ -40,21 +40,6 @@ public class ArticlePresenter implements ArticleContract.Presenter {
         //mView = null;
 
     }
-
-    /*
-    switch (position) {
-                case 0:
-                    return "热门博文";
-                case 1:
-                    return "最新博文";
-                case 2:
-                    return "精品源码";
-                case 3:
-                    return "一周热点";
-                case 4:
-                    return "实例教程";
-            }
-     */
     public static final int TYPE_BLOG_HOT = 0;
     public static final int TYPE_BLOG_NEW = 1;
     public static final int TYPE_AWSOME_CODE = 2;

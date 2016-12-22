@@ -10,9 +10,66 @@
     app:per="10"
     tools:context="com.apkbus.mobile.ui.fragment.ChristmasFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello world!" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="怼个漂酿的照骗"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/christmas_img"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="再哔哔两句"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/christmas_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="100" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp">
+
+            <info.hoang8f.widget.FButton
+                android:id="@+id/christmas_music"
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:shadowColor="#BBB"
+                android:text="music"
+                app:buttonColor="#DDD"
+                app:cornerRadius="5dp" />
+
+            <Button
+                android:id="@+id/christmas_fly"
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center_horizontal"
+                android:background="#5A5"
+                android:text="起飞啦"
+                android:textColor="#FFF" />
+        </FrameLayout>
+
+    </LinearLayout>
+
 </com.luolc.emojirain.EmojiRainLayout>
 

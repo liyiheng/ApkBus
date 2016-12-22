@@ -25,12 +25,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.apkbus.mobile.R;
-import com.apkbus.mobile.bean.LoginInfo;
 import com.apkbus.mobile.bean.User;
 import com.apkbus.mobile.bean.UserProfile;
 import com.apkbus.mobile.constract.MainContract;
@@ -42,7 +40,6 @@ import com.apkbus.mobile.utils.LToast;
 import com.apkbus.mobile.utils.SharedPreferencesHelper;
 
 import net.youmi.android.listener.OffersWallDialogListener;
-import net.youmi.android.normal.banner.BannerManager;
 import net.youmi.android.normal.banner.BannerViewListener;
 import net.youmi.android.offers.OffersManager;
 
@@ -101,7 +98,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
       The {@link ViewPager} that will host the section contents.
      */
         ViewPager viewPager = (ViewPager) findViewById(R.id.container);
-        viewPager.setOffscreenPageLimit(4);
+        viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(pagerAdapter);
         viewPager.removeOnPageChangeListener(this);
         viewPager.addOnPageChangeListener(this);
@@ -168,12 +165,9 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                         loadingDialog.show();
                     }).build().show();
         });
-        // 获取广告条
-        View bannerView = BannerManager.getInstance(this).getBannerView(this);
-        // 获取要嵌入广告条的布局
-        LinearLayout bannerLayout = (LinearLayout) findViewById(R.id.ll_banner);
-        // 将广告条加入到布局中
-        bannerLayout.addView(bannerView);
+        //View bannerView = BannerManager.getInstance(this).getBannerView(this);
+        //LinearLayout bannerLayout = (LinearLayout) findViewById(R.id.ll_banner);
+        //bannerLayout.addView(bannerView);
     }
 
     @Override

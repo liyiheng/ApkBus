@@ -80,6 +80,8 @@
         <activity
             android:name=".ui.activity.LoginActivity"
             android:label="@string/title_activity_login" />
+        <activity android:name=".ui.activity.LWelcome"
+            android:theme="@style/WelcomeScreenTheme"/>
         <activity
             android:name=".ui.activity.SplashActivity"
             android:theme="@style/Thranslucent">
@@ -110,7 +112,6 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
-
         <activity android:name=".ui.activity.GiftsActivity" />
         <activity android:name=".ui.activity.ChatActivity"></activity>
     </application>
