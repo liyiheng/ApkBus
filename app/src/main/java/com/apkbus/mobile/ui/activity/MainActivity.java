@@ -1,5 +1,6 @@
 package com.apkbus.mobile.ui.activity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -23,12 +24,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.ClientCertRequest;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -40,6 +36,8 @@ import com.apkbus.mobile.bean.UserProfile;
 import com.apkbus.mobile.constract.MainContract;
 import com.apkbus.mobile.presenter.MainPresenter;
 import com.apkbus.mobile.ui.fragment.ArticleFragment;
+import com.apkbus.mobile.ui.fragment.BaseFragment;
+import com.apkbus.mobile.ui.fragment.ChristmasFragment;
 import com.apkbus.mobile.utils.LToast;
 import com.apkbus.mobile.utils.SharedPreferencesHelper;
 
@@ -51,27 +49,11 @@ import net.youmi.android.offers.OffersManager;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 public class MainActivity extends BaseActivity<MainContract.Presenter> implements MainContract.View, View.OnClickListener, TabLayout.OnTabSelectedListener, OffersWallDialogListener, ViewPager.OnPageChangeListener, BannerViewListener {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
     private TextView mTextUsername;
-    private ImageView mAvatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,24 +80,35 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
         actionBarDrawerToggle.syncState();
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        /*
+      The {@link android.support.v4.view.PagerAdapter} that will provide
+      fragments for each of the sections. We use a
+      {@link FragmentPagerAdapter} derivative, which will keep every
+      loaded fragment in memory. If this becomes too memory intensive, it
+      may be best to switch to a
+      {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     */
+        SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setOffscreenPageLimit(4);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.removeOnPageChangeListener(this);
-        mViewPager.addOnPageChangeListener(this);
+        /*
+      The {@link ViewPager} that will host the section contents.
+     */
+        ViewPager viewPager = (ViewPager) findViewById(R.id.container);
+        viewPager.setOffscreenPageLimit(4);
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.removeOnPageChangeListener(this);
+        viewPager.addOnPageChangeListener(this);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.removeOnTabSelectedListener(this);
         tabLayout.addOnTabSelectedListener(this);
-        tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.setupWithViewPager(viewPager);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         SwitchCompat item = (SwitchCompat) navigationView.getMenu().getItem(0).getActionView();
@@ -128,11 +121,11 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                 case R.id.navigation_item_autorenew:
                     //menuItem.getActionView().
                     break;
-                case R.id.navigation_item_logout:
-                    SharedPreferencesHelper.getInstance(mContext).saveToken(new LoginInfo());
-                    startActivity(new Intent(mContext, LoginActivity.class));
-                    finish();
-                    break;
+//                case R.id.navigation_item_logout:
+//                    SharedPreferencesHelper.getInstance(mContext).saveToken(new LoginInfo());
+//                    startActivity(new Intent(mContext, LoginActivity.class));
+//                    finish();
+//                    break;
                 case R.id.navigation_item_share:
                     // new OneKeyShare();
                     OnekeyShare share = new OnekeyShare();
@@ -161,7 +154,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
             return true;
         });
         mTextUsername = ((TextView) navigationView.getHeaderView(0).findViewById(R.id.navigation_header_username));
-        mAvatar = ((ImageView) navigationView.getHeaderView(0).findViewById(R.id.navigation_header_avatar));
+        //mAvatar = ((ImageView) navigationView.getHeaderView(0).findViewById(R.id.navigation_header_avatar));
         mTextUsername.setOnClickListener(view -> {
             drawerLayout.closeDrawers();
             new MaterialDialog.Builder(mContext)
@@ -238,7 +231,10 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                 Snackbar.make(v, "Developer? Help us expand this app", Snackbar.LENGTH_LONG)
                         .setAction("Join us", (View view) -> {
                             Intent intent = new Intent(Intent.ACTION_DEFAULT, Uri.parse("https://github.com/XanthusL/ApkBus"));
-                            startActivity(intent);
+                            try {
+                                startActivity(intent);
+                            } catch (ActivityNotFoundException ignored) {
+                            }
                         }).show();
                 break;
         }
@@ -326,25 +322,39 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    private class SectionsPagerAdapter extends FragmentPagerAdapter {
+    class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        BaseFragment[] mFragments;
+
+        SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
+            mFragments = new BaseFragment[6];
         }
 
         @Override
         public Fragment getItem(int position) {
-            return ArticleFragment.newInstance(position);
+            if (mFragments[position] == null) {
+                if (position == 0) {
+                    mFragments[position] = new ChristmasFragment();
+                } else {
+                    //noinspection WrongConstant
+                    mFragments[position] = ArticleFragment.newInstance(position - 1);
+                }
+            }
+            return mFragments[position];
         }
+
 
         @Override
         public int getCount() {
-            return 5;
+            return 6;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
+            switch (--position) {
+                case -1:
+                    return "christmas";
                 case 0:
                     return "热门博文";
                 case 1:

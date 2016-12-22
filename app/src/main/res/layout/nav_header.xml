@@ -31,11 +31,13 @@
         android:src="@mipmap/ic_launcher" />
 
     <TextView
+        android:textColor="#FFF"
         android:id="@+id/navigation_header_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:text="点击设置昵称"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:text="Merry Christmas"
+        android:textStyle="italic"
+        android:textSize="22sp"/>
 
 </FrameLayout>

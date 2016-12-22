@@ -1,5 +1,7 @@
 package com.apkbus.mobile.presenter;
 
+import android.support.annotation.IntDef;
+
 import com.apkbus.mobile.apis.MobError;
 import com.apkbus.mobile.bean.event.ScrollSignal;
 import com.apkbus.mobile.constract.ArticleContract;
@@ -18,7 +20,6 @@ import org.json.JSONObject;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -40,20 +41,44 @@ public class ArticlePresenter implements ArticleContract.Presenter {
 
     }
 
+    /*
+    switch (position) {
+                case 0:
+                    return "热门博文";
+                case 1:
+                    return "最新博文";
+                case 2:
+                    return "精品源码";
+                case 3:
+                    return "一周热点";
+                case 4:
+                    return "实例教程";
+            }
+     */
+    public static final int TYPE_BLOG_HOT = 0;
+    public static final int TYPE_BLOG_NEW = 1;
+    public static final int TYPE_AWSOME_CODE = 2;
+    public static final int TYPE_WEEKLY_HOT = 3;
+    public static final int TYPE_DEMOS = 4;
+
+    @IntDef(value = {TYPE_AWSOME_CODE, TYPE_BLOG_HOT, TYPE_BLOG_NEW, TYPE_WEEKLY_HOT, TYPE_DEMOS})
+    public @interface ListType {
+    }
+
     private ArticleContract.View mView;
-    private int SECTION_INDEX;
+    private int mType;
     private CompositeSubscription mSubscriptions;
 
-    public ArticlePresenter(ArticleContract.View view, int sectionIndex, CompositeSubscription s) {
+    public ArticlePresenter(ArticleContract.View view, @ListType int type, CompositeSubscription s) {
         this.mView = view;
-        this.SECTION_INDEX = sectionIndex;
+        this.mType = type;
         mSubscriptions = s;
         aCache = ACache.get(mView.getContext().getApplicationContext());
         Subscription subscription = RxBus
                 .getInstance()
                 .toSubscription(ScrollSignal.class, (ScrollSignal scrollSignal)
                         -> {
-                    if (scrollSignal.tabPosition == SECTION_INDEX) {
+                    if (scrollSignal.tabPosition == mType) {
                         mView.scroll2Top();
                     }
                 });
@@ -67,20 +92,20 @@ public class ArticlePresenter implements ArticleContract.Presenter {
         final Gson gson = new Gson();
         RxAPI api = RxAPI.getInstance();
         Observable<BeanWrapper<Bean>> observer = null;
-        switch (SECTION_INDEX) {
-            case 0:
+        switch (mType) {
+            case TYPE_BLOG_HOT:
                 observer = api.getPopularArticles();
                 break;
-            case 1:
+            case TYPE_BLOG_NEW:
                 observer = api.getLatestArticles();
                 break;
-            case 2:
+            case TYPE_AWSOME_CODE:
                 observer = api.getAwsomeSource();
                 break;
-            case 3:
+            case TYPE_WEEKLY_HOT:
                 observer = api.getWeeklyPopular();
                 break;
-            case 4:
+            case TYPE_DEMOS:
                 observer = api.getDemos();
                 break;
         }
@@ -88,7 +113,7 @@ public class ArticlePresenter implements ArticleContract.Presenter {
         // Load data from cache at the first time.
         if (firstTime) {
             firstTime = false;
-            JSONObject jsonObject = aCache.getAsJSONObject("DATA" + SECTION_INDEX);
+            JSONObject jsonObject = aCache.getAsJSONObject("DATA" + mType);
             if (jsonObject != null && observer != null) {
                 BeanWrapper<Bean> data = gson.fromJson(jsonObject.toString(), new TypeToken<BeanWrapper<Bean>>() {
                 }.getType());
@@ -108,7 +133,7 @@ public class ArticlePresenter implements ArticleContract.Presenter {
                     .observeOn(Schedulers.io())
                     .doOnNext((BeanWrapper<Bean> blogBeanWrapper) ->
                             // Cache data in IO-thread.
-                            aCache.put("DATA" + SECTION_INDEX, gson.toJson(blogBeanWrapper)))
+                            aCache.put("DATA" + mType, gson.toJson(blogBeanWrapper)))
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new LSubscriber<BeanWrapper<Bean>>() {
 

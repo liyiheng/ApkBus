@@ -1,6 +1,5 @@
 package com.apkbus.mobile.presenter;
 
-import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.util.Log;
 
@@ -20,6 +19,7 @@ import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 /**
+ * @author liyiheng
  * Created by liyiheng on 16/9/23.
  */
 
@@ -46,7 +46,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void initData() {
-        lastTimestamp = System.currentTimeMillis();
+        //lastTimestamp = System.currentTimeMillis();
         LoginInfo token = SharedPreferencesHelper.getInstance(mView.getContext()).getToken();
         if (token == null) {
             mView.bindData(null);
@@ -122,16 +122,16 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void onADClosed() {
-        lastTimestamp = System.currentTimeMillis();
+        //lastTimestamp = System.currentTimeMillis();
     }
 
     @Override
     public void pageScrolled() {
-        long l = System.currentTimeMillis() - lastTimestamp;
-        long l1 = l / 1000 ;
-        if (l1>60){
-            mView.showAD();
-        }
+//        long l = System.currentTimeMillis() - lastTimestamp;
+//        long l1 = l / 1000 ;
+//        if (l1>60){
+//            mView.showAD();
+//        }
     }
-    private long lastTimestamp;
+//    private long lastTimestamp;
 }

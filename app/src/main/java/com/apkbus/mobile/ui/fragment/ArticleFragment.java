@@ -35,8 +35,8 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
      * fragment.
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
-
-    private int SECTION_NUMBER;
+    @ArticlePresenter.ListType
+    private int mType;
 
     private ArticleContract.Presenter mPresenter;
     private SwipeRefreshLayout mSwipeRefresh;
@@ -50,10 +50,10 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static ArticleFragment newInstance(int sectionNumber) {
+    public static ArticleFragment newInstance(@ArticlePresenter.ListType int type) {
         ArticleFragment fragment = new ArticleFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        args.putInt(ARG_SECTION_NUMBER, type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -62,8 +62,9 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.fragment_article, container, false);
-        SECTION_NUMBER = getArguments().getInt(ARG_SECTION_NUMBER);
-        mPresenter = new ArticlePresenter(this, SECTION_NUMBER, mSubscriptions);
+        //noinspection WrongConstant
+        mType = getArguments().getInt(ARG_SECTION_NUMBER);
+        mPresenter = new ArticlePresenter(this, mType, mSubscriptions);
         mSwipeRefresh = ((SwipeRefreshLayout) layout.findViewById(R.id.fragment_article_refresh));
         SwipeRefresh.initSwipeRefreshLayout(mSwipeRefresh, getContext());
         mSwipeRefresh.setOnRefreshListener(this);
