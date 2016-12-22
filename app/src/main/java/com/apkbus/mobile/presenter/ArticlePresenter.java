@@ -78,7 +78,7 @@ public class ArticlePresenter implements ArticleContract.Presenter {
                 .getInstance()
                 .toSubscription(ScrollSignal.class, (ScrollSignal scrollSignal)
                         -> {
-                    if (scrollSignal.tabPosition == mType) {
+                    if (scrollSignal.tabPosition - 1 == mType) {
                         mView.scroll2Top();
                     }
                 });

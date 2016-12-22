@@ -1,13 +1,18 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.luolc.emojirain.EmojiRainLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/group_emoji_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:dropDuration="2400"
+    app:dropFrequency="500"
+    app:duration="7200"
+    app:per="10"
     tools:context="com.apkbus.mobile.ui.fragment.ChristmasFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello world!" />
+</com.luolc.emojirain.EmojiRainLayout>
 
-</FrameLayout>
