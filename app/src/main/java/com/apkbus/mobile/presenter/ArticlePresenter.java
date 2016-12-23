@@ -42,11 +42,11 @@ public class ArticlePresenter implements ArticleContract.Presenter {
     }
     public static final int TYPE_BLOG_HOT = 0;
     public static final int TYPE_BLOG_NEW = 1;
-    public static final int TYPE_AWSOME_CODE = 2;
+    public static final int TYPE_AWESOME_CODE = 2;
     public static final int TYPE_WEEKLY_HOT = 3;
     public static final int TYPE_DEMOS = 4;
 
-    @IntDef(value = {TYPE_AWSOME_CODE, TYPE_BLOG_HOT, TYPE_BLOG_NEW, TYPE_WEEKLY_HOT, TYPE_DEMOS})
+    @IntDef(value = {TYPE_AWESOME_CODE, TYPE_BLOG_HOT, TYPE_BLOG_NEW, TYPE_WEEKLY_HOT, TYPE_DEMOS})
     public @interface ListType {
     }
 
@@ -84,8 +84,8 @@ public class ArticlePresenter implements ArticleContract.Presenter {
             case TYPE_BLOG_NEW:
                 observer = api.getLatestArticles();
                 break;
-            case TYPE_AWSOME_CODE:
-                observer = api.getAwsomeSource();
+            case TYPE_AWESOME_CODE:
+                observer = api.getAwesomeSource();
                 break;
             case TYPE_WEEKLY_HOT:
                 observer = api.getWeeklyPopular();

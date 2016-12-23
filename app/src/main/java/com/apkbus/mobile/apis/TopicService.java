@@ -15,8 +15,8 @@ public interface TopicService {
 
     //int WEEKLY_POPULAR = 30;
     int WEEKLY_POPULAR = 43;
-    //int AWSOME_SOURCE = 31;
-    int AWSOME_SOURCE = 46;
+    //int AWESOME_SOURCE = 31;
+    int AWESOME_SOURCE = 46;
     //int DEMOS = 35;
     int DEMOS = 42;
 /*
@@ -32,7 +32,7 @@ public interface TopicService {
 
  */
     /**
-     * @param bid Should be one of {@link #WEEKLY_POPULAR,#AWSOME_SOURCE,#DEMOS}
+     * @param bid Should be one of {@link #WEEKLY_POPULAR,#AWESOME_SOURCE ,#DEMOS}
      */
     @GET("api.php?mod=js&type=json")
     Observable<BeanWrapper<Bean>> getArticles(@Query("bid") int bid);

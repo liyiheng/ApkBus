@@ -72,8 +72,8 @@ public class RxAPI {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<BeanWrapper<Bean>> getAwsomeSource() {
-        return topicService.getArticles(TopicService.AWSOME_SOURCE)
+    public Observable<BeanWrapper<Bean>> getAwesomeSource() {
+        return topicService.getArticles(TopicService.AWESOME_SOURCE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
