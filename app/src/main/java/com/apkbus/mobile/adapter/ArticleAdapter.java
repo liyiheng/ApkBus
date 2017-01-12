@@ -1,15 +1,16 @@
 package com.apkbus.mobile.adapter;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.apkbus.mobile.BR;
 import com.apkbus.mobile.R;
 import com.apkbus.mobile.bean.Bean;
-import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  * Created by liyiheng on 16/9/19.
  */
-public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleHolder> implements View.OnClickListener, View.OnLongClickListener {
+public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BindHolder> implements View.OnClickListener, View.OnLongClickListener {
     private final LayoutInflater mInflater;
     private List<Bean> mData;
 
@@ -46,20 +47,30 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleH
     }
 
     @Override
-    public ArticleHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_demos, parent, false);
-        return new ArticleHolder(view);
+    public BindHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        ViewDataBinding binding = DataBindingUtil.inflate(mInflater, R.layout.item_demos, parent, false);
+        BindHolder bindHolder = new BindHolder(binding.getRoot());
+        bindHolder.setBinding(binding);
+        return bindHolder;
+        //View view = mInflater.inflate(R.layout.item_demos, parent, false);
+        //return new ArticleHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ArticleHolder holder, int position) {
+    public void onBindViewHolder(BindHolder holder, int position) {
         Bean bean = mData.get(position);
-        holder.title.setText(bean.getTitle());
-        holder.avatar.setImageURI(bean.getAuthorAvatar());
-        holder.nickName.setText(bean.getNickname());
+
         holder.itemView.setOnClickListener(this);
         holder.itemView.setOnLongClickListener(this);
         holder.itemView.setTag(bean);
+
+        //holder.title.setText(bean.getTitle());
+        //holder.avatar.setImageURI(bean.getAuthorAvatar());
+        //holder.nickName.setText(bean.getNickname());
+        //
+        holder.getBinding().setVariable(BR.bean, bean);
+        holder.getBinding().executePendingBindings();
+
     }
 
     @Override
@@ -89,9 +100,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleH
 
     @Override
     public boolean onLongClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.item_demos_root:
-                if (mInterf!=null){
+                if (mInterf != null) {
                     Bean tag = (Bean) v.getTag();
                     mInterf.onItemLongClick(tag);
                 }
@@ -105,19 +116,24 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleH
      */
     public interface ClickCallback {
         void onItemClick(Bean bean);
+
         void onItemLongClick(Bean bean);
     }
 
-    public static class ArticleHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView avatar;
-        TextView title;
-        TextView nickName;
 
-        public ArticleHolder(View itemView) {
+    static class BindHolder extends RecyclerView.ViewHolder {
+        private ViewDataBinding mBinding;
+
+        public BindHolder(View itemView) {
             super(itemView);
-            avatar = (SimpleDraweeView) itemView.findViewById(R.id.item_demos_avatar);
-            title = (TextView) itemView.findViewById(R.id.item_demos_title);
-            nickName = (TextView) itemView.findViewById(R.id.item_demos_nickname);
+        }
+
+        public ViewDataBinding getBinding() {
+            return mBinding;
+        }
+
+        public void setBinding(ViewDataBinding mBinding) {
+            this.mBinding = mBinding;
         }
     }
 }
