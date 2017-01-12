@@ -35,7 +35,6 @@ import com.apkbus.mobile.constract.MainContract;
 import com.apkbus.mobile.presenter.MainPresenter;
 import com.apkbus.mobile.ui.fragment.ArticleFragment;
 import com.apkbus.mobile.ui.fragment.BaseFragment;
-import com.apkbus.mobile.ui.fragment.ChristmasFragment;
 import com.apkbus.mobile.utils.LToast;
 import com.apkbus.mobile.utils.SharedPreferencesHelper;
 
@@ -328,12 +327,14 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         @Override
         public Fragment getItem(int position) {
             if (mFragments[position] == null) {
-                if (position == 0) {
-                    mFragments[position] = new ChristmasFragment();
-                } else {
-                    //noinspection WrongConstant
-                    mFragments[position] = ArticleFragment.newInstance(position - 1);
-                }
+//                if (position == 0) {
+//                    mFragments[position] = new ChristmasFragment();
+//                } else {
+//                    //noinspection WrongConstant
+//                    mFragments[position] = ArticleFragment.newInstance(position - 1);
+//                }
+                //noinspection WrongConstant
+                mFragments[position] = ArticleFragment.newInstance(position );
             }
             return mFragments[position];
         }
@@ -346,7 +347,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (--position) {
+            switch (position) {
                 case -1:
                     return "christmas";
                 case 0:
