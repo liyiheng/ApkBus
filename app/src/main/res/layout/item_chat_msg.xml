@@ -1,40 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#dfd"
-    android:padding="8dp"
-    android:layout_margin="3dp"
-    android:orientation="horizontal">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/item_chat_msg_avatar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@mipmap/ic_launcher" />
+    <data>
 
-    <LinearLayout
+        <import type="com.apkbus.mobile.bean.ChatMessage" />
+
+        <variable
+            name="msg"
+            type="com.apkbus.mobile.bean.ChatMessage" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_margin="3dp"
+        android:background="#dfd"
+        android:orientation="horizontal"
+        android:padding="8dp">
 
-        <TextView
-            android:id="@+id/item_chat_msg_content"
+        <ImageView
+            android:id="@+id/item_chat_msg_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/ic_launcher"
+            android:visibility="@{msg.type == ChatMessage.TYPE.RECEIVE ? View.VISIBLE : View.INVISIBLE" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="hakjdfhkadf"
-            android:textSize="16sp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/item_chat_msg_time"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="bottom|end"
-            android:text="sfadsf"
-            android:textSize="12sp" />
+            <TextView
+                android:id="@+id/item_chat_msg_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@{msg.content}"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/item_chat_msg_time"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom|end"
+                app:time="@{msg.time}"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
-
-
-</LinearLayout>
+</layout>

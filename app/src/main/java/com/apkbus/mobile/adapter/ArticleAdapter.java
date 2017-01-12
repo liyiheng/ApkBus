@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by liyiheng on 16/9/19.
  */
-public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BindHolder> implements View.OnClickListener, View.OnLongClickListener {
+public class ArticleAdapter extends RecyclerView.Adapter<BindHolder> implements View.OnClickListener, View.OnLongClickListener {
     private final LayoutInflater mInflater;
     private List<Bean> mData;
 
@@ -49,9 +49,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BindHold
     @Override
     public BindHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewDataBinding binding = DataBindingUtil.inflate(mInflater, R.layout.item_demos, parent, false);
-        BindHolder bindHolder = new BindHolder(binding.getRoot());
-        bindHolder.setBinding(binding);
-        return bindHolder;
+        return new BindHolder(binding.getRoot(),binding);
         //View view = mInflater.inflate(R.layout.item_demos, parent, false);
         //return new ArticleHolder(view);
     }
@@ -120,20 +118,4 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BindHold
         void onItemLongClick(Bean bean);
     }
 
-
-    static class BindHolder extends RecyclerView.ViewHolder {
-        private ViewDataBinding mBinding;
-
-        public BindHolder(View itemView) {
-            super(itemView);
-        }
-
-        public ViewDataBinding getBinding() {
-            return mBinding;
-        }
-
-        public void setBinding(ViewDataBinding mBinding) {
-            this.mBinding = mBinding;
-        }
-    }
 }
