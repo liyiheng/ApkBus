@@ -80,22 +80,8 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        /*
-      The {@link android.support.v4.view.PagerAdapter} that will provide
-      fragments for each of the sections. We use a
-      {@link FragmentPagerAdapter} derivative, which will keep every
-      loaded fragment in memory. If this becomes too memory intensive, it
-      may be best to switch to a
-      {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
         SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
-        /*
-      The {@link ViewPager} that will host the section contents.
-     */
         ViewPager viewPager = (ViewPager) findViewById(R.id.container);
         viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(pagerAdapter);
@@ -327,14 +313,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         @Override
         public Fragment getItem(int position) {
             if (mFragments[position] == null) {
-//                if (position == 0) {
-//                    mFragments[position] = new ChristmasFragment();
-//                } else {
-//                    //noinspection WrongConstant
-//                    mFragments[position] = ArticleFragment.newInstance(position - 1);
-//                }
-                //noinspection WrongConstant
-                mFragments[position] = ArticleFragment.newInstance(position );
+                mFragments[position] = ArticleFragment.newInstance(position);
             }
             return mFragments[position];
         }
@@ -342,14 +321,12 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 
         @Override
         public int getCount() {
-            return 6;
+            return 5;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
-                case -1:
-                    return "christmas";
                 case 0:
                     return "热门博文";
                 case 1:

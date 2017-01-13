@@ -5,10 +5,12 @@
 
         <import type="com.apkbus.mobile.bean.ChatMessage" />
 
+        <import type="com.apkbus.mobile.bean.ChatMessage.TYPE" />
+
         <import type="android.view.View" />
 
         <variable
-            name="msg"
+            name="bean"
             type="com.apkbus.mobile.bean.ChatMessage" />
     </data>
 
@@ -25,8 +27,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@mipmap/ic_launcher"
-            android:visibility="visible" />
-            <!--android:visibility="@{msg.type ?View.VISIBLE:View.INVISIBLE" />-->
+            android:visibility="@{bean.type==TYPE.RECEIVE?View.VISIBLE:View.INVISIBLE}" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@{msg.content}"
+                android:text="@{bean.content}"
                 android:textSize="16sp" />
 
             <TextView
@@ -47,7 +48,7 @@
                 android:layout_height="match_parent"
                 android:gravity="bottom|end"
                 android:textSize="12sp"
-                app:time="@{msg.time}" />
+                app:time="@{bean.time}" />
 
         </LinearLayout>
 

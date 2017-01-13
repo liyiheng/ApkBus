@@ -1,17 +1,14 @@
 package com.apkbus.mobile.ui.activity;
 
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.apkbus.mobile.BasePresenter;
 import com.apkbus.mobile.R;
-import com.apkbus.mobile.adapter.ChatAdapter;
+import com.apkbus.mobile.adapter.FinalAdapter;
 import com.apkbus.mobile.bean.ChatMessage;
 import com.apkbus.mobile.utils.LToast;
 import com.turing.androidsdk.InitListener;
@@ -22,6 +19,9 @@ import com.turing.androidsdk.TuringApiManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import turing.os.http.core.ErrorMessage;
 import turing.os.http.core.HttpConnectionListener;
 import turing.os.http.core.RequestResult;
@@ -30,7 +30,7 @@ public class ChatActivity extends BaseActivity implements InitListener, HttpConn
 
     private EditText mEditText;
     private TuringApiManager turingApiManager;
-    private ChatAdapter chatAdapter;
+    private FinalAdapter<ChatMessage> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +44,12 @@ public class ChatActivity extends BaseActivity implements InitListener, HttpConn
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview_chat);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        chatAdapter = new ChatAdapter(mContext);
-        recyclerView.setAdapter(chatAdapter);
+
+
+        mAdapter = new FinalAdapter<>(R.layout.item_chat_msg);
+        mAdapter.setFooterView(0, null);
+
+        recyclerView.setAdapter(mAdapter);
         findViewById(R.id.activity_chat_send).setOnClickListener(this);
         mEditText = ((EditText) findViewById(R.id.chat_edit_text));
     }
@@ -80,10 +84,21 @@ public class ChatActivity extends BaseActivity implements InitListener, HttpConn
                 String text = result_obj.optString("text");
 
                 ChatMessage message = new ChatMessage(text, System.currentTimeMillis(), ChatMessage.TYPE.RECEIVE);
-                chatAdapter.addItem(message);
-
-            } catch (JSONException e) {
+                addItem(message);
+            } catch (JSONException ignore) {
             }
+        }
+    }
+
+    private void addItem(ChatMessage message) {
+        List<ChatMessage> data = mAdapter.getData();
+        if (data == null) {
+            data = new ArrayList<>();
+            data.add(message);
+            mAdapter.updateRes(data);
+        } else {
+            data.add(message);
+            mAdapter.notifyItemInserted(data.size() - 1);
         }
     }
 
@@ -110,7 +125,7 @@ public class ChatActivity extends BaseActivity implements InitListener, HttpConn
 //                }
                 turingApiManager.requestTuringAPI(text);
                 ChatMessage message = new ChatMessage(text, System.currentTimeMillis(), ChatMessage.TYPE.SEND);
-                chatAdapter.addItem(message);
+                addItem(message);
                 mEditText.setText("");
                 break;
 

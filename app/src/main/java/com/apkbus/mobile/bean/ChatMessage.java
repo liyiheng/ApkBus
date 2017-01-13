@@ -42,7 +42,11 @@ public class ChatMessage {
         this.type = type;
     }
 
-   public enum TYPE {
+    public boolean isSend() {
+        return type == TYPE.SEND;
+    }
+
+    public enum TYPE {
         SEND, RECEIVE
     }
 }

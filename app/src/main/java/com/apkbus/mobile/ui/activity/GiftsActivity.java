@@ -8,7 +8,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import com.apkbus.mobile.R;
-import com.apkbus.mobile.adapter.GiftAdapter;
+import com.apkbus.mobile.adapter.FinalAdapter;
 import com.apkbus.mobile.bean.GiftWrapper;
 import com.apkbus.mobile.constract.GiftContract;
 import com.apkbus.mobile.presenter.GiftPresenter;
@@ -21,7 +21,7 @@ import java.util.List;
 public class GiftsActivity extends BaseActivity<GiftContract.Presenter> implements GiftContract.View, SwipeRefreshLayout.OnRefreshListener {
 
     private SwipeRefreshLayout swipeRefresh;
-    private GiftAdapter mAdapter;
+    private FinalAdapter<GiftWrapper.Gift> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,10 @@ public class GiftsActivity extends BaseActivity<GiftContract.Presenter> implemen
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.gift_recyclerView);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-        mAdapter = new GiftAdapter(mContext);
+
+        mAdapter = new FinalAdapter<>(R.layout.item_gift);
+        mAdapter.setFooterView(R.layout.item_footer,true);
+
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mAdapter);
         recyclerView.addOnScrollListener(new ScrollToEndListener() {

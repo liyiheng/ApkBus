@@ -14,10 +14,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.apkbus.mobile.constract.ArticleContract;
 import com.apkbus.mobile.R;
-import com.apkbus.mobile.adapter.ArticleAdapter;
+import com.apkbus.mobile.adapter.ClickCallback;
+import com.apkbus.mobile.adapter.FinalAdapter;
 import com.apkbus.mobile.bean.Bean;
+import com.apkbus.mobile.constract.ArticleContract;
 import com.apkbus.mobile.presenter.ArticlePresenter;
 import com.apkbus.mobile.utils.LToast;
 import com.apkbus.mobile.utils.SwipeRefresh;
@@ -29,7 +30,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 /**
  * Created by liyiheng on 16/9/19.
  */
-public class ArticleFragment extends BaseFragment implements ArticleContract.View, SwipeRefreshLayout.OnRefreshListener, ArticleAdapter.ClickCallback {
+public class ArticleFragment extends BaseFragment implements ArticleContract.View, SwipeRefreshLayout.OnRefreshListener, ClickCallback<Bean> {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -41,7 +42,8 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
     private ArticleContract.Presenter mPresenter;
     private SwipeRefreshLayout mSwipeRefresh;
     private RecyclerView mRecyclerView;
-    private ArticleAdapter mAdapter;
+    //private ArticleAdapter mAdapter;
+    private FinalAdapter<Bean> adapter;
 
     public ArticleFragment() {
     }
@@ -71,9 +73,11 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
         mRecyclerView = ((RecyclerView) layout.findViewById(R.id.fragment_article_recycler));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mAdapter = new ArticleAdapter(getContext());
-        mAdapter.setCallback(this);
-        mRecyclerView.setAdapter(mAdapter);
+        adapter = new FinalAdapter<>(R.layout.item_demos);
+        adapter.setFooterView(R.layout.item_footer, true);
+        adapter.setClickCallback(this);
+        mRecyclerView.setAdapter(adapter);
+
         return layout;
     }
 
@@ -98,7 +102,7 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
     }
 
     @Override
-    public void onItemLongClick(Bean bean) {
+    public boolean onItemLongClick(Bean bean) {
         MaterialDialog dialog = new MaterialDialog
                 .Builder(getContext())
                 .title(bean.getTitle())
@@ -128,6 +132,7 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
         titleView.setSingleLine(true);
         titleView.setEllipsize(TextUtils.TruncateAt.END);
         dialog.show();
+        return true;
     }
 
 
@@ -138,7 +143,8 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
 
     @Override
     public void updateData(List<Bean> data) {
-        mAdapter.updateRes(data);
+        //mAdapter.updateRes(data);
+        adapter.updateRes(data);
         mSwipeRefresh.setRefreshing(false);
     }
 

@@ -1,8 +1,10 @@
 package com.apkbus.mobile.utils;
 
 import android.databinding.BindingAdapter;
+import android.view.View;
 import android.widget.TextView;
 
+import com.apkbus.mobile.adapter.ClickCallback;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.text.SimpleDateFormat;
@@ -22,5 +24,10 @@ public class BindingUtil {
     @BindingAdapter({"time"})
     public static void setTimeText(TextView v, long l) {
         v.setText(simpleDateFormat.format(l));
+    }
+
+    @BindingAdapter({"longClick"})
+    public static void onLongClick(View v, ClickCallback l) {
+        v.setOnLongClickListener(v1 -> l.onItemLongClick(v1.getTag()));
     }
 }

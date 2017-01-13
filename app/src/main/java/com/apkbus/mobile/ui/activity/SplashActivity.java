@@ -35,6 +35,7 @@ public class SplashActivity extends BaseActivity implements Interface_ActivityLi
 //        if (token == null || TextUtils.isEmpty(token.getUid())) {
 //            startActivity(new Intent(this, LoginActivity.class));
 //        } else {
+        finish();
         startActivity(new Intent(this, MainActivity.class));
 //        }
 

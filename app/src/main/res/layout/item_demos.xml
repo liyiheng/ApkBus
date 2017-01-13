@@ -6,6 +6,10 @@
         <variable
             name="bean"
             type="com.apkbus.mobile.bean.Bean" />
+
+        <variable
+            name="callback"
+            type="com.apkbus.mobile.adapter.ClickCallback" />
     </data>
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,11 +21,13 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="5dp"
+        android:onClick="@{()->callback.onItemClick(bean)}"
         android:orientation="vertical"
         app:cardCornerRadius="5dp"
+        android:tag="@{bean}"
+        app:longClick="@{callback}"
         app:cardUseCompatPadding="true"
         app:contentPadding="10dp">
-
 
         <TextView
             android:id="@+id/item_demos_title"
@@ -41,16 +47,16 @@
                 android:id="@+id/item_demos_avatar"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:imageUrl="@{bean.authorAvatar}"
                 app:failureImage="@android:drawable/ic_delete"
+                app:imageUrl="@{bean.authorAvatar}"
                 app:placeholderImage="@android:drawable/ic_menu_gallery" />
 
             <TextView
-                android:text="@{bean.nickname}"
                 android:id="@+id/item_demos_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp" />
+                android:layout_marginLeft="5dp"
+                android:text="@{bean.nickname}" />
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
