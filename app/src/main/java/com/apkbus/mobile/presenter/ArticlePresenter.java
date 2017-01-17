@@ -28,17 +28,19 @@ import rx.subscriptions.CompositeSubscription;
  */
 public class ArticlePresenter implements ArticleContract.Presenter {
     private final ACache aCache;
-
+    private ArticleContract.View mView;
+    private int mType;
+    private CompositeSubscription mSubscriptions;
+    @IntDef(value = {TYPE_AWESOME_CODE, TYPE_BLOG_HOT, TYPE_BLOG_NEW, TYPE_WEEKLY_HOT, TYPE_DEMOS})
+    public @interface ListType {
+    }
     @Override
     public void subscribe() {
-        // todo
     }
 
     @Override
     public void unSubscribe() {
-        // todo
-        //mView = null;
-
+        mView = null;
     }
     public static final int TYPE_BLOG_HOT = 0;
     public static final int TYPE_BLOG_NEW = 1;
@@ -46,13 +48,9 @@ public class ArticlePresenter implements ArticleContract.Presenter {
     public static final int TYPE_WEEKLY_HOT = 3;
     public static final int TYPE_DEMOS = 4;
 
-    @IntDef(value = {TYPE_AWESOME_CODE, TYPE_BLOG_HOT, TYPE_BLOG_NEW, TYPE_WEEKLY_HOT, TYPE_DEMOS})
-    public @interface ListType {
-    }
 
-    private ArticleContract.View mView;
-    private int mType;
-    private CompositeSubscription mSubscriptions;
+
+
 
     public ArticlePresenter(ArticleContract.View view, @ListType int type, CompositeSubscription s) {
         this.mView = view;

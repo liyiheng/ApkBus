@@ -64,6 +64,8 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         return new MainPresenter(this);
     }
 
+    public static final String FIR_URL = "http://fir.im/ve7m";
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -100,24 +102,15 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         );
         navigationView.setNavigationItemSelectedListener((MenuItem menuItem) -> {
             switch (menuItem.getItemId()) {
-                case R.id.navigation_item_autorenew:
-                    //menuItem.getActionView().
-                    break;
-//                case R.id.navigation_item_logout:
-//                    SharedPreferencesHelper.getInstance(mContext).saveToken(new LoginInfo());
-//                    startActivity(new Intent(mContext, LoginActivity.class));
-//                    finish();
-//                    break;
                 case R.id.navigation_item_share:
-                    // new OneKeyShare();
                     OnekeyShare share = new OnekeyShare();
                     share.disableSSOWhenAuthorize();
                     share.setTitle("ApkBus");
-                    share.setTitleUrl("http://fir.im/ve7m");
+                    share.setTitleUrl(FIR_URL);
                     share.setText("ApkBus_哈哈哈哦啦啦");
-                    share.setUrl("http://fir.im/ve7m");
+                    share.setUrl(FIR_URL);
                     share.setImageUrl("http://www.apkbus.com/static/image/common/logo.png");
-                    share.setSiteUrl("http://fir.im/ve7m");
+                    share.setSiteUrl(FIR_URL);
                     share.setSite("ApkBus");
                     share.show(this);
                     drawerLayout.closeDrawers();
@@ -131,8 +124,6 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                     startActivity(new Intent(mContext, ChatActivity.class));
                     break;
             }
-            //menuItem.setChecked(!menuItem.isChecked());
-            //drawerLayout.closeDrawers();
             return true;
         });
         mTextUsername = ((TextView) navigationView.getHeaderView(0).findViewById(R.id.navigation_header_username));
@@ -205,17 +196,15 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.fab:
-                Snackbar.make(v, "Developer? Help us expand this app", Snackbar.LENGTH_LONG)
-                        .setAction("Join us", (View view) -> {
-                            Intent intent = new Intent(Intent.ACTION_DEFAULT, Uri.parse("https://github.com/XanthusL/ApkBus"));
-                            try {
-                                startActivity(intent);
-                            } catch (ActivityNotFoundException ignored) {
-                            }
-                        }).show();
-                break;
+        if (v.getId() == R.id.fab) {
+            Snackbar.make(v, "Developer? Help us expand this app", Snackbar.LENGTH_LONG)
+                    .setAction("Join us", (View view) -> {
+                        Intent intent = new Intent(Intent.ACTION_DEFAULT, Uri.parse("https://github.com/XanthusL/ApkBus"));
+                        try {
+                            startActivity(intent);
+                        } catch (ActivityNotFoundException ignored) {
+                        }
+                    }).show();
         }
     }
 
@@ -226,7 +215,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
-
+            // not used
     }
 
     @Override

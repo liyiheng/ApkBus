@@ -2,7 +2,6 @@ package com.apkbus.mobile.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.MappedByteBuffer;
@@ -28,19 +27,17 @@ public class MD5Util {
     public static String getMD5(String inStr) {
         byte[] inStrBytes = inStr.getBytes();
         try {
-            MessageDigest MD = MessageDigest.getInstance("MD5");
-            MD.update(inStrBytes);
-            byte[] mdByte = MD.digest();
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(inStrBytes);
+            byte[] mdByte = md.digest();
             char[] str = new char[mdByte.length * 2];
             int k = 0;
-            for (int i = 0; i < mdByte.length; i++) {
-                byte temp = mdByte[i];
+            for (byte temp : mdByte) {
                 str[k++] = hexDigits[temp >>> 4 & 0xf];
                 str[k++] = hexDigits[temp & 0xf];
             }
             return new String(str);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+        } catch (NoSuchAlgorithmException ignore) {
         }
         return null;
     }
@@ -58,14 +55,12 @@ public class MD5Util {
             md5.update(byteBuffer);
             BigInteger bi = new BigInteger(1, md5.digest());
             value = bi.toString(16);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignore) {
         } finally {
             if (null != in) {
                 try {
                     in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (IOException ignore) {
                 }
             }
         }
@@ -90,17 +85,11 @@ public class MD5Util {
             }
             BigInteger bi = new BigInteger(1, md5.digest());
             return bi.toString(16);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+        } catch (NoSuchAlgorithmException | IOException ignore) {
         } finally {
             try {
                 if (fis != null) fis.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ignore) {
             }
         }
         return null;
