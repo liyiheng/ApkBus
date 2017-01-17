@@ -4,7 +4,6 @@ package com.apkbus.mobile.apis;
 import android.util.Log;
 
 import com.apkbus.mobile.bean.event.Logout;
-import com.apkbus.mobile.utils.LToast;
 import com.apkbus.mobile.utils.RxBus;
 
 import org.json.JSONException;
@@ -60,12 +59,12 @@ public abstract class LSubscriber<T> extends Subscriber<T> {
             Log.e("LSubscriber", "onError: httpStatusCode:  " + String.valueOf(httpStatusCode));
             Log.e("LSubscriber", "onError:   responseBody:  " + err);
             String code = "0";
-            String msg = "";
+            //String msg = "";
             if (err != null) {
                 try {
                     JSONObject object = new JSONObject(err);
                     code = object.optString("retCode");
-                    msg = object.optString("msg");
+                   // msg = object.optString("msg");
                 } catch (JSONException e2) {
                     e2.printStackTrace();
                 }

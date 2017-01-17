@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.apkbus.mobile.BasePresenter;
 import com.apkbus.mobile.R;
 import com.apkbus.mobile.apis.LSubscriber;
@@ -16,7 +15,6 @@ import com.apkbus.mobile.utils.LToast;
 import com.apkbus.mobile.utils.MD5Util;
 import com.apkbus.mobile.utils.RegexUtil;
 
-import rx.Observable;
 import rx.Subscription;
 
 public class RegisterActivity extends BaseActivity {

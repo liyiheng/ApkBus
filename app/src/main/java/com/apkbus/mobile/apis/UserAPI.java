@@ -5,12 +5,7 @@ import android.util.Base64;
 import com.apkbus.mobile.bean.LoginInfo;
 import com.apkbus.mobile.bean.MobWrapper;
 
-import java.io.IOException;
-
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -40,13 +35,10 @@ public class UserAPI {
     }
 
     private UserAPI() {
-        new OkHttpClient.Builder().addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request request = chain.request();
+        new OkHttpClient.Builder().addInterceptor(chain -> {
+            //Request request = chain.request();
 
-                return null;
-            }
+            return null;
         });
         retrofit = new Retrofit.Builder()
                 .baseUrl(DOMAIN)

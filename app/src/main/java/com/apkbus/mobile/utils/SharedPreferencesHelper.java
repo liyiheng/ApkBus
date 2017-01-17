@@ -33,13 +33,11 @@ public class SharedPreferencesHelper {
     /**
      * 保存String类型数据
      *
-     * @param key
-     * @param value
      */
     public void putString(String key, String value) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
     }
 
 

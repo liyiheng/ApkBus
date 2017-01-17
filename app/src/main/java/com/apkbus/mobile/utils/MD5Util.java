@@ -16,11 +16,13 @@ import java.security.NoSuchAlgorithmException;
  * @author Sylthas
  */
 public class MD5Util {
+    private MD5Util() {
+    }
+
     private static final char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'A', 'B', 'C', 'D', 'E', 'F'};
 
     /**
-     * @param inStr
      * @return 32byte MD5 Value
      */
     public static String getMD5(String inStr) {
@@ -44,8 +46,6 @@ public class MD5Util {
     }
 
     /**
-     * @param file
-     * @return
      * @deprecated use {@link #md5(File)}
      */
     public static String getMd5ByFile(File file) {
