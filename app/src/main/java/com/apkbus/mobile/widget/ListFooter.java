@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.apkbus.mobile.R;
 
 /**
- * Created by liyiheng on 16/9/29.
+ * @deprecated Created by liyiheng on 16/9/29.
  */
 public class ListFooter extends RelativeLayout {
 

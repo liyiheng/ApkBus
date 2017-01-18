@@ -1,11 +1,13 @@
 package com.apkbus.mobile.adapter;
 
+import android.animation.Animator;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.view.animation.ScaleAnimation;
 
 import com.android.databinding.library.baseAdapters.BR;
 
@@ -40,6 +42,7 @@ public class FinalAdapter<T> extends RecyclerView.Adapter<BindHolder> {
 
     public FinalAdapter(@LayoutRes int itemLayout) {
         this.mItemLayout = itemLayout;
+
     }
 
     public TypeSelector<T> getTypeSelector() {
@@ -95,10 +98,14 @@ public class FinalAdapter<T> extends RecyclerView.Adapter<BindHolder> {
         return new BindHolder(dataBinding);
     }
 
+
     @Override
     public void onBindViewHolder(BindHolder holder, int position) {
         holder.getBinding().setVariable(BR.bean, getBean(position));
         holder.getBinding().executePendingBindings();
+//        ScaleAnimation animation = new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f);
+//        animation.setDuration(200);
+//        holder.itemView.startAnimation(animation);
     }
 
     private Object getBean(int position) {

@@ -27,7 +27,9 @@ import rx.Subscription;
 
 /**
  * A login screen that offers login via username/password.
+ * Unused.
  */
+@Deprecated
 public class LoginActivity extends BaseActivity {
 
     // UI references.

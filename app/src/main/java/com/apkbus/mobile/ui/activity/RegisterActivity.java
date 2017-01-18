@@ -17,6 +17,10 @@ import com.apkbus.mobile.utils.RegexUtil;
 
 import rx.Subscription;
 
+/**
+ * Unused.
+ */
+@Deprecated
 public class RegisterActivity extends BaseActivity {
 
     private EditText mEditTextEmail;

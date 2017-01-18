@@ -60,6 +60,7 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
         return fragment;
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,7 +78,6 @@ public class ArticleFragment extends BaseFragment implements ArticleContract.Vie
         adapter.setFooterView(R.layout.item_footer, true);
         adapter.setClickCallback(this);
         mRecyclerView.setAdapter(adapter);
-
         return layout;
     }
 
