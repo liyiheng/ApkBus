@@ -13,7 +13,6 @@ public interface ArticleContract {
     interface View extends BaseView<Presenter> {
         /**
          * Update UI.
-         * @param data
          */
         void updateData(List<Bean> data);
 
