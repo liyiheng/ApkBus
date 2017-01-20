@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
 
     <data>
 
@@ -15,43 +16,61 @@
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:background="#dfd"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:layout_margin="4dp"
+        android:orientation="horizontal">
 
-        <ImageView
+        <View
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:visibility="@{bean.type==TYPE.RECEIVE?View.GONE:View.VISIBLE}" />
+
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/item_chat_msg_avatar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@mipmap/ic_launcher"
-            android:visibility="@{bean.type==TYPE.RECEIVE?View.VISIBLE:View.INVISIBLE}" />
-
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_chat_r2"
+            android:visibility="@{bean.type==TYPE.RECEIVE?View.VISIBLE:View.GONE}"
+            app:riv_corner_radius="20dip" />
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginLeft="6dp"
+            android:background="@{bean.type==TYPE.RECEIVE?@drawable/shape_chat_receive_bg:@drawable/shape_chat_send_bg}"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:layout_marginRight="6dp">
 
-            <TextView
+            <me.codeboy.android.aligntextview.AlignTextView
                 android:id="@+id/item_chat_msg_content"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="left"
                 android:text="@{bean.content}"
+                android:textColor="@{bean.type==TYPE.RECEIVE?@android:color/black:@android:color/white}"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/item_chat_msg_time"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="bottom|end"
+                android:textColor="@{bean.type==TYPE.RECEIVE?@android:color/black:@android:color/white}"
                 android:textSize="12sp"
                 app:time="@{bean.time}" />
 
         </LinearLayout>
 
-
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/item_chat_msg_me"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_chat_r"
+            android:visibility="@{bean.type==TYPE.RECEIVE?View.INVISIBLE:View.VISIBLE}"
+            app:riv_corner_radius="20dip" />
     </LinearLayout>
 </layout>

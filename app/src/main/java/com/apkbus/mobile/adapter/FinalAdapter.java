@@ -1,13 +1,11 @@
 package com.apkbus.mobile.adapter;
 
-import android.animation.Animator;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.view.animation.ScaleAnimation;
 
 import com.android.databinding.library.baseAdapters.BR;
 
@@ -95,6 +93,7 @@ public class FinalAdapter<T> extends RecyclerView.Adapter<BindHolder> {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         ViewDataBinding dataBinding = DataBindingUtil.inflate(inflater, viewType, parent, false);
         if (mInterf != null) dataBinding.setVariable(BR.callback, mInterf);
+
         return new BindHolder(dataBinding);
     }
 

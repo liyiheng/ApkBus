@@ -4,4 +4,7 @@
     <!--<color name="colorPrimary">#Ef1C00</color>-->
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorChatReceivebg">#f7f7f7</color>
+    <color name="colorChatSendbg">#00c514</color>
+    <color name="colorChatCursor">#1B95E0</color>
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_chat"
     android:layout_width="match_parent"
@@ -10,21 +11,66 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/activity_chat_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize" />
+        android:layout_height="?attr/actionBarSize"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white">
+
+            <TextView
+                android:id="@+id/chat_toolabar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Miss"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/chat_btnback"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:src="@drawable/ic_back" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_chat"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:background="@android:color/white" />
 
-    <EditText
-        android:id="@+id/chat_edit_text"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
-    <Button
-        android:id="@+id/activity_chat_send"
-        android:text="发送"
-        android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/chat_edit_text"
+            android:background="@null"
+            android:paddingLeft="10dp"
+            android:hint="input here ..."
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:textCursorDrawable="@drawable/shape_chat_cursor"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/activity_chat_send"
+            android:gravity="center_vertical"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/ic_chat_send"
+            android:padding="5dp"
+            android:layout_marginRight="5dp"/>
+    </LinearLayout>
+
 </LinearLayout>
