@@ -112,7 +112,9 @@
             </intent-filter>
         </receiver>
         <activity android:name=".ui.activity.GiftsActivity" />
-        <activity android:name=".ui.activity.ChatActivity"></activity>
+        <activity
+            android:name=".ui.activity.ChatActivity"
+            />
     </application>
 
 </manifest>
