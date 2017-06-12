@@ -1,4 +1,4 @@
-# ApkBus (deprecated) 
+# ~~ApkBus~~ (deprecated) 
 ApkBus安卓客户端，服务端json接口已废弃
 
 
